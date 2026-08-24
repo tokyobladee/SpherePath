@@ -79,15 +79,65 @@ namespace SpherePath.Level
             CreateImpactBurst(center, radius);
         }
 
+        public void ShowProjectileBurst(Vector3 center, float radius)
+        {
+            var burstObject = new GameObject("Projectile Burst");
+            _transientObjects.Add(burstObject);
+            burstObject.transform.position = center;
+            var particles = burstObject.AddComponent<ParticleSystem>();
+            var main = particles.main;
+            main.startLifetime = 0.42f;
+            main.startSpeed = Mathf.Max(4.5f, radius * 7f);
+            main.startSize = Mathf.Max(0.16f, radius * 0.24f);
+            main.startColor = new Color(1f, 0.88f, 0.25f, 1f);
+            main.gravityModifier = 0.25f;
+            main.maxParticles = 96;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            var emission = particles.emission;
+            emission.enabled = false;
+            var shape = particles.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = Mathf.Max(0.08f, radius * 0.35f);
+            var renderer = particles.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = _level.TrailMaterial;
+            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * 48f), 24, 72));
+            burstObject.AddComponent<TimedSelfDestroy>().SetLifeTime(0.9f);
+        }
+
+        public void ShowObstacleBurst(Vector3 center, float radius)
+        {
+            var burstObject = new GameObject("Obstacle Burst");
+            _transientObjects.Add(burstObject);
+            burstObject.transform.position = center;
+            var particles = burstObject.AddComponent<ParticleSystem>();
+            var main = particles.main;
+            main.startLifetime = 0.55f;
+            main.startSpeed = Mathf.Max(2f, radius * 4.5f);
+            main.startSize = Mathf.Max(0.12f, radius * 0.28f);
+            main.startColor = new Color(0.48f, 0.9f, 0.42f, 1f);
+            main.gravityModifier = 1.1f;
+            main.maxParticles = 64;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            var emission = particles.emission;
+            emission.enabled = false;
+            var shape = particles.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = Mathf.Max(0.1f, radius * 0.3f);
+            var renderer = particles.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = _level.TrailMaterial;
+            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * 42f), 18, 56));
+            burstObject.AddComponent<TimedSelfDestroy>().SetLifeTime(1f);
+        }
+
         private void CreateProjectileTrail(GameObject projectileObject, float radius)
         {
             var trail = projectileObject.AddComponent<TrailRenderer>();
             trail.sharedMaterial = _level.TrailMaterial;
-            trail.time = 0.18f;
-            trail.startWidth = radius * 1.2f;
+            trail.time = 0.32f;
+            trail.startWidth = radius * 1.55f;
             trail.endWidth = 0f;
             trail.minVertexDistance = 0.02f;
-            trail.numCornerVertices = 4;
+            trail.numCornerVertices = 8;
         }
 
         private float GetProjectileTravelDistance(Vector3 startPosition, float radius)

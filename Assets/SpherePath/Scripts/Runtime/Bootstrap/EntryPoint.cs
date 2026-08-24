@@ -1,8 +1,6 @@
 using SpherePath.Configuration;
-using SpherePath.GameState;
 using SpherePath.Level;
 using UnityEngine;
-using Zenject;
 
 namespace SpherePath.Bootstrap
 {
@@ -13,31 +11,24 @@ namespace SpherePath.Bootstrap
         [SerializeField] private int initialLevelIndex;
         [SerializeField] private Transform levelParent;
 
-        private DiContainer _container;
-        private GameController _controller;
+        private GameSessionRunner _sessionRunner;
 
         private void Awake()
         {
             LockPortraitOrientation();
             ValidateReferences();
-            _container = new DiContainer();
-            var installer = new GameplayInstaller();
-            installer.Install(_container, configuration, levelCatalog);
-            var levelLoader = _container.Resolve<LevelLoader>();
-            var level = levelLoader.Load(initialLevelIndex, levelParent);
-            installer.InstallScene(_container, level, configuration);
-            _controller = _container.Resolve<GameController>();
-            _controller.Initialize();
+            _sessionRunner = new GameSessionRunner(configuration, levelCatalog, levelParent, initialLevelIndex);
+            _sessionRunner.Start();
         }
 
         private void Update()
         {
-            _controller?.Tick(Time.deltaTime);
+            _sessionRunner?.Tick(Time.deltaTime);
         }
 
         private void OnDestroy()
         {
-            _controller?.Dispose();
+            _sessionRunner?.Dispose();
         }
 
         private void ValidateReferences()

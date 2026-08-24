@@ -22,7 +22,10 @@ namespace SpherePath.Editor
         private const string ConfigurationPath = "Assets/SpherePath/ScriptableObjects/DefaultGameplayConfiguration.asset";
         private const string LevelCatalogPath = "Assets/SpherePath/ScriptableObjects/DefaultLevelCatalog.asset";
         private const string LevelPrefabFolder = "Assets/SpherePath/Prefabs/Levels";
+        private const string LevelProgressPrefabPath = "Assets/SpherePath/Prefabs/Level Progress.prefab";
         private const string MaterialFolder = "Assets/SpherePath/Materials";
+        private const string GrassTexturePath = "Assets/SpherePath/Textures/GroundGrass.png";
+        private const string CorridorShaderName = "SpherePath/CorridorBorder";
 
         private static readonly LevelDefinition[] LevelDefinitions =
         {
@@ -134,6 +137,7 @@ namespace SpherePath.Editor
             EnsureFolder("Assets/SpherePath/Prefabs");
             EnsureFolder("Assets/SpherePath/Prefabs/Levels");
             EnsureFolder("Assets/SpherePath/Materials");
+            EnsureFolder("Assets/SpherePath/Textures");
             EnsureFolder("Assets/SpherePath/ScriptableObjects");
         }
 
@@ -168,9 +172,11 @@ namespace SpherePath.Editor
             var playerMaterial = LoadOrCreateMaterial("Player", new Color(1f, 0.58f, 0.12f, 1f));
             var projectileMaterial = LoadOrCreateMaterial("Projectile", new Color(1f, 0.78f, 0.25f, 1f));
             var groundMaterial = LoadOrCreateMaterial("Ground", new Color(0.54f, 0.64f, 0.47f, 1f));
+            ApplyGrassTexture(groundMaterial);
             var obstacleMaterial = LoadOrCreateMaterial("Obstacle", new Color(0.24f, 0.58f, 0.28f, 1f));
             var doorMaterial = LoadOrCreateMaterial("Door", new Color(1f, 0.56f, 0.16f, 1f));
             var corridorMaterial = LoadOrCreateMaterial("Corridor", new Color(1f, 0.18f, 0.4f, 0.35f));
+            ApplyCorridorShader(corridorMaterial);
             var infectionPreviewMaterial = LoadOrCreateMaterial("InfectionPreview", new Color(1f, 0.35f, 0.12f, 0.28f));
             var trailMaterial = LoadOrCreateMaterial("Trail", new Color(1f, 0.7f, 0.18f, 0.65f));
             var levelReferences = new List<LevelViewReferences>();
@@ -277,6 +283,39 @@ namespace SpherePath.Editor
             return material;
         }
 
+        private static void ApplyGrassTexture(Material material)
+        {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(GrassTexturePath);
+            if (texture == null)
+            {
+                return;
+            }
+
+            material.SetTexture("_BaseMap", texture);
+            material.SetTexture("_MainTex", texture);
+            material.SetTextureScale("_BaseMap", new Vector2(6f, 18f));
+            material.SetTextureScale("_MainTex", new Vector2(6f, 18f));
+            EditorUtility.SetDirty(material);
+        }
+
+        private static void ApplyCorridorShader(Material material)
+        {
+            var shader = Shader.Find(CorridorShaderName);
+            if (shader == null)
+            {
+                return;
+            }
+
+            material.shader = shader;
+            material.SetColor("_BaseColor", new Color(1f, 0f, 0f, 0.85f));
+            material.SetFloat("_FillAlpha", 0.14f);
+            material.SetFloat("_BorderThickness", 0.015f);
+            material.SetFloat("_BorderSoftness", 0.035f);
+            material.SetFloat("_PathMinX", 0f);
+            material.SetFloat("_PathMaxX", 1f);
+            EditorUtility.SetDirty(material);
+        }
+
         private static Scene CreateScene()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -321,6 +360,8 @@ namespace SpherePath.Editor
             light.type = LightType.Directional;
             light.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
             light.intensity = 2.4f;
+            light.shadows = LightShadows.Soft;
+            light.shadowStrength = 0.45f;
         }
 
         private static void CreateGround(Transform parent, Material material)
@@ -429,10 +470,11 @@ namespace SpherePath.Editor
             safeArea.offsetMax = Vector2.zero;
 
             var energySlider = CreateEnergySlider(safeAreaObject.transform);
+            CreateLevelProgress(safeAreaObject.transform, out var levelProgressFill, out var currentLevelText, out var nextLevelText);
             var statusText = CreateStatusText(safeAreaObject.transform);
             var resultPanel = CreateResultPanel(safeAreaObject.transform, out var resultHintText, out var restartButton);
             var ui = canvasObject.AddComponent<GameUiView>();
-            AssignUiReferences(ui, energySlider, statusText, resultPanel, resultHintText, restartButton, safeArea);
+            AssignUiReferences(ui, energySlider, statusText, resultPanel, resultHintText, restartButton, safeArea, levelProgressFill, currentLevelText, nextLevelText);
             return ui;
         }
 
@@ -460,6 +502,21 @@ namespace SpherePath.Editor
             energySlider.targetGraphic = background;
             energySlider.fillRect = fill.rectTransform;
             return energySlider;
+        }
+
+        private static void CreateLevelProgress(Transform parent, out Image fill, out Text currentLevelText, out Text nextLevelText)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(LevelProgressPrefabPath);
+            if (prefab == null)
+            {
+                throw new System.InvalidOperationException($"Missing level progress prefab at {LevelProgressPrefabPath}.");
+            }
+
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            instance.transform.SetParent(parent, false);
+            fill = FindComponentInChildren<Image>(instance.transform, "Level Progress Fill");
+            currentLevelText = FindComponentInChildren<Text>(instance.transform, "Current Level");
+            nextLevelText = FindComponentInChildren<Text>(instance.transform, "Next Level");
         }
 
         private static Text CreateStatusText(Transform parent)
@@ -594,7 +651,7 @@ namespace SpherePath.Editor
             serializedReferences.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        private static void AssignUiReferences(GameUiView ui, Slider energySlider, Text statusText, GameObject resultPanel, Text resultHintText, Button restartButton, RectTransform safeArea)
+        private static void AssignUiReferences(GameUiView ui, Slider energySlider, Text statusText, GameObject resultPanel, Text resultHintText, Button restartButton, RectTransform safeArea, Image levelProgressFill, Text currentLevelText, Text nextLevelText)
         {
             var serializedUi = new SerializedObject(ui);
             serializedUi.FindProperty("energySlider").objectReferenceValue = energySlider;
@@ -603,7 +660,23 @@ namespace SpherePath.Editor
             serializedUi.FindProperty("resultHintText").objectReferenceValue = resultHintText;
             serializedUi.FindProperty("restartButton").objectReferenceValue = restartButton;
             serializedUi.FindProperty("safeArea").objectReferenceValue = safeArea;
+            serializedUi.FindProperty("levelProgressFill").objectReferenceValue = levelProgressFill;
+            serializedUi.FindProperty("currentLevelText").objectReferenceValue = currentLevelText;
+            serializedUi.FindProperty("nextLevelText").objectReferenceValue = nextLevelText;
             serializedUi.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static T FindComponentInChildren<T>(Transform root, string objectName) where T : Component
+        {
+            foreach (var component in root.GetComponentsInChildren<T>(true))
+            {
+                if (component.name == objectName)
+                {
+                    return component;
+                }
+            }
+
+            throw new System.InvalidOperationException($"{root.name} requires child {objectName} with {typeof(T).Name}.");
         }
 
         private readonly struct LevelDefinition

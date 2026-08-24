@@ -6,20 +6,22 @@ namespace SpherePath.Obstacles
     public sealed class ObstacleClearingService
     {
         private readonly float _infectionRadiusMultiplier;
+        private readonly float _impactRadius;
 
-        public ObstacleClearingService(float infectionRadiusMultiplier)
+        public ObstacleClearingService(float infectionRadiusMultiplier, float impactRadius)
         {
             _infectionRadiusMultiplier = Mathf.Max(0.01f, infectionRadiusMultiplier);
+            _impactRadius = Mathf.Max(0f, impactRadius);
         }
 
-        public ObstacleClearingResult ClearFromImpact(IReadOnlyList<Obstacle> obstacles, Obstacle impactObstacle, float projectileRadius)
+        public ObstacleClearingResult ClearFromImpact(IReadOnlyList<Obstacle> obstacles, Obstacle impactObstacle, Vector3 impactPosition, float projectileRadius)
         {
             if (obstacles == null || impactObstacle == null)
             {
-                return new ObstacleClearingResult(0, 0f);
+                return new ObstacleClearingResult(0, 0f, impactPosition);
             }
 
-            var infectionRadius = Mathf.Max(0f, projectileRadius) * _infectionRadiusMultiplier;
+            var infectionRadius = Mathf.Max(_impactRadius, Mathf.Max(0f, projectileRadius) * _infectionRadiusMultiplier);
             var clearedCount = 0;
 
             foreach (var obstacle in obstacles)
@@ -29,14 +31,14 @@ namespace SpherePath.Obstacles
                     continue;
                 }
 
-                if (Vector3.Distance(impactObstacle.Position, obstacle.Position) <= infectionRadius)
+                if (Vector3.Distance(impactPosition, obstacle.Position) <= infectionRadius + obstacle.Radius)
                 {
                     obstacle.Clear();
                     clearedCount++;
                 }
             }
 
-            return new ObstacleClearingResult(clearedCount, infectionRadius);
+            return new ObstacleClearingResult(clearedCount, infectionRadius, impactPosition);
         }
     }
 }

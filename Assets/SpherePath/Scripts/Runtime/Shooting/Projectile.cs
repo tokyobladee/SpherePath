@@ -14,10 +14,11 @@ namespace SpherePath.Shooting
         private float _lifeTime;
         private float _travelDistance;
         private float _maxTravelDistance;
+        private float _launchTime;
         private bool _isActive;
 
-        public event Action<Obstacle, float> HitObstacle;
-        public event Action Expired;
+        public event Action<Obstacle, float, Vector3> HitObstacle;
+        public event Action<Vector3, float> Expired;
 
         public void Launch(IReadOnlyList<Obstacle> obstacles, Vector3 direction, float radius, float speed, float lifeTime, float maxTravelDistance)
         {
@@ -28,8 +29,9 @@ namespace SpherePath.Shooting
             _lifeTime = lifeTime;
             _travelDistance = 0f;
             _maxTravelDistance = Mathf.Max(0f, maxTravelDistance);
+            _launchTime = Time.time;
             _isActive = true;
-            transform.localScale = Vector3.one * (_radius * 2f);
+            UpdateLiquidScale();
         }
 
         public void Cancel()
@@ -47,16 +49,20 @@ namespace SpherePath.Shooting
                 return;
             }
 
+            var startPosition = transform.position;
             var stepDistance = _speed * Time.deltaTime;
-            transform.position += _direction * stepDistance;
+            var targetPosition = startPosition + _direction * stepDistance;
+            transform.position = targetPosition;
             _travelDistance += stepDistance;
             _lifeTime -= Time.deltaTime;
+            UpdateLiquidScale();
 
-            var hitObstacle = FindHitObstacle();
+            var hitObstacle = FindHitObstacle(startPosition, targetPosition, out var hitPosition);
             if (hitObstacle != null)
             {
                 _isActive = false;
-                HitObstacle?.Invoke(hitObstacle, _radius);
+                transform.position = hitPosition;
+                HitObstacle?.Invoke(hitObstacle, _radius, hitPosition);
                 Destroy(gameObject);
                 return;
             }
@@ -64,17 +70,26 @@ namespace SpherePath.Shooting
             if (_lifeTime <= 0f || _travelDistance >= _maxTravelDistance)
             {
                 _isActive = false;
-                Expired?.Invoke();
+                Expired?.Invoke(transform.position, _radius);
                 Destroy(gameObject);
             }
         }
 
-        private Obstacle FindHitObstacle()
+        private Obstacle FindHitObstacle(Vector3 startPosition, Vector3 targetPosition, out Vector3 hitPosition)
         {
+            hitPosition = targetPosition;
+
             if (_obstacles == null)
             {
                 return null;
             }
+
+            var flatStartPosition = new Vector3(startPosition.x, 0f, startPosition.z);
+            var flatTargetPosition = new Vector3(targetPosition.x, 0f, targetPosition.z);
+            var segment = flatTargetPosition - flatStartPosition;
+            var segmentLengthSquared = segment.sqrMagnitude;
+            var bestProgress = float.MaxValue;
+            Obstacle bestObstacle = null;
 
             foreach (var obstacle in _obstacles)
             {
@@ -83,14 +98,35 @@ namespace SpherePath.Shooting
                     continue;
                 }
 
-                var distance = Vector3.Distance(transform.position, obstacle.Position);
+                var obstaclePosition = new Vector3(obstacle.Position.x, 0f, obstacle.Position.z);
+                var progress = segmentLengthSquared <= Mathf.Epsilon
+                    ? 0f
+                    : Mathf.Clamp01(Vector3.Dot(obstaclePosition - flatStartPosition, segment) / segmentLengthSquared);
+                var closestPosition = flatStartPosition + segment * progress;
+                var distance = Vector3.Distance(closestPosition, obstaclePosition);
                 if (distance <= _radius + obstacle.Radius)
                 {
-                    return obstacle;
+                    if (progress >= bestProgress)
+                    {
+                        continue;
+                    }
+
+                    bestProgress = progress;
+                    bestObstacle = obstacle;
+                    hitPosition = Vector3.Lerp(startPosition, targetPosition, progress);
                 }
             }
 
-            return null;
+            return bestObstacle;
+        }
+
+        private void UpdateLiquidScale()
+        {
+            var diameter = _radius * 2f;
+            var time = (Time.time - _launchTime) * 12f;
+            var forwardStretch = 1f + Mathf.Sin(time) * 0.1f;
+            var sideSquash = 1f - Mathf.Sin(time) * 0.06f;
+            transform.localScale = new Vector3(diameter * sideSquash, diameter * sideSquash, diameter * forwardStretch);
         }
     }
 }

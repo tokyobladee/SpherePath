@@ -12,6 +12,9 @@ namespace SpherePath.UI
         [SerializeField] private Text resultHintText;
         [SerializeField] private Button restartButton;
         [SerializeField] private RectTransform safeArea;
+        [SerializeField] private Image levelProgressFill;
+        [SerializeField] private Text currentLevelText;
+        [SerializeField] private Text nextLevelText;
 
         private Rect _currentSafeArea;
 
@@ -32,6 +35,32 @@ namespace SpherePath.UI
             if (restartButton != null)
             {
                 restartButton.onClick.RemoveListener(HandleRestartClicked);
+            }
+        }
+
+        public void SetLevelProgress(int currentLevel, string nextLevel, float normalizedProgress)
+        {
+            if (currentLevelText != null)
+            {
+                currentLevelText.text = currentLevel.ToString();
+            }
+
+            if (nextLevelText != null)
+            {
+                nextLevelText.text = nextLevel;
+            }
+
+            if (levelProgressFill != null)
+            {
+                levelProgressFill.fillAmount = Mathf.Clamp01(normalizedProgress);
+            }
+        }
+
+        public void SetLevelProgressValue(float normalizedProgress)
+        {
+            if (levelProgressFill != null)
+            {
+                levelProgressFill.fillAmount = Mathf.Clamp01(normalizedProgress);
             }
         }
 

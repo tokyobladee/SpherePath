@@ -27,11 +27,11 @@ namespace SpherePath.Player
             _cachedTransform.position = position;
         }
 
-        public void SetChargeFeedback(float charge)
+        public void SetChargeFeedback(float charge, float targetRadius)
         {
             var stretch = Mathf.Lerp(1f, 0.82f, charge);
             var width = Mathf.Lerp(1f, 1.12f, charge);
-            var diameter = Radius * 2f;
+            var diameter = Mathf.Max(0.05f, targetRadius) * 2f;
             _cachedTransform.localScale = new Vector3(diameter * width, diameter * stretch, diameter * width);
         }
 

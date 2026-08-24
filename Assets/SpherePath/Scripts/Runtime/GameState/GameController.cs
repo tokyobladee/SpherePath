@@ -12,6 +12,12 @@ namespace SpherePath.GameState
 {
     public sealed class GameController : IDisposable
     {
+        private const float CompletionDelay = 0.75f;
+        private const float CorridorVisualPadding = 0.45f;
+
+        private static readonly int PathMinXProperty = Shader.PropertyToID("_PathMinX");
+        private static readonly int PathMaxXProperty = Shader.PropertyToID("_PathMaxX");
+
         private readonly GameplayConfiguration _configuration;
         private readonly LevelViewReferences _scene;
         private readonly TransientViewFactory _transientViewFactory;
@@ -26,6 +32,18 @@ namespace SpherePath.GameState
         private GamePhase _phase;
         private Vector3 _moveTarget;
         private bool _shouldLoseAfterProjectileResolution;
+        private float _impactShakeTime;
+        private int _pendingObstacleDestructionCount;
+        private bool _isDoorOpen;
+        private float _doorOpenProgress;
+        private float _completionTimer;
+        private Renderer _corridorRenderer;
+        private MaterialPropertyBlock _corridorPropertyBlock;
+        private Vector3 _jumpStartPosition;
+        private Vector3 _jumpTargetPosition;
+        private float _jumpProgress;
+
+        public event Action Completed;
 
         public GameController(
             GameplayConfiguration configuration,
@@ -55,6 +73,19 @@ namespace SpherePath.GameState
         {
             _energy.Changed += UpdateEnergyView;
             _scene.Ui.RestartClicked += ResetGame;
+            _corridorRenderer = _scene.Corridor.GetComponent<Renderer>();
+            _corridorPropertyBlock = new MaterialPropertyBlock();
+
+            foreach (var obstacle in _scene.Obstacles)
+            {
+                if (obstacle == null)
+                {
+                    continue;
+                }
+
+                obstacle.Destroyed += ShowObstacleDestroyed;
+            }
+
             ResetGame();
         }
 
@@ -62,6 +93,17 @@ namespace SpherePath.GameState
         {
             _energy.Changed -= UpdateEnergyView;
             _scene.Ui.RestartClicked -= ResetGame;
+
+            foreach (var obstacle in _scene.Obstacles)
+            {
+                if (obstacle == null)
+                {
+                    continue;
+                }
+
+                obstacle.Destroyed -= ShowObstacleDestroyed;
+            }
+
             _transientViewFactory.ClearTransients();
         }
 
@@ -93,6 +135,14 @@ namespace SpherePath.GameState
             {
                 MovePlayer(deltaTime);
             }
+
+            if (_phase == GamePhase.Won)
+            {
+                UpdateCompletion(deltaTime);
+            }
+
+            UpdateDoor(deltaTime);
+            UpdateImpactShake(deltaTime);
         }
 
         private void ResetGame()
@@ -108,10 +158,17 @@ namespace SpherePath.GameState
             _shotCharge.Begin();
             _phase = GamePhase.Ready;
             _shouldLoseAfterProjectileResolution = false;
+            _impactShakeTime = 0f;
+            _pendingObstacleDestructionCount = 0;
+            _isDoorOpen = false;
+            _doorOpenProgress = 0f;
+            _completionTimer = 0f;
+            _jumpProgress = 1f;
             _scene.Player.SetPosition(_scene.PlayerSpawnPosition);
             UpdatePlayerRadius();
+            UpdateLevelProgress();
             SnapCameraToPlayer();
-            SetDoorOpen(false);
+            ApplyDoorPose();
             _scene.Ui.ShowPlaying();
             _scene.ChargePreview.gameObject.SetActive(false);
             ResetCameraShake();
@@ -128,8 +185,10 @@ namespace SpherePath.GameState
         private void UpdateCharging(float deltaTime)
         {
             var reachedEnergyLimit = _shotCharge.TickUntilEnergyLimit(deltaTime);
-            _scene.Player.SetChargeFeedback(_shotCharge.NormalizedCharge);
+            var projectedRadius = GetProjectedPlayerRadius();
+            _scene.Player.SetChargeFeedback(_shotCharge.NormalizedCharge, projectedRadius);
             _scene.CameraView.SetShake(_shotCharge.NormalizedCharge);
+            UpdateCorridor(projectedRadius);
             UpdateChargePreview();
             UpdateProjectedEnergyView();
 
@@ -149,7 +208,7 @@ namespace SpherePath.GameState
         private void UpdateChargePreview()
         {
             var radius = _shotCharge.ProjectileRadius;
-            _scene.ChargePreview.position = _scene.Player.Position + Vector3.forward * (_scene.Player.Radius + radius + 0.25f);
+            _scene.ChargePreview.position = _scene.Player.Position + Vector3.forward * (GetProjectedPlayerRadius() + radius + 0.25f);
             _scene.ChargePreview.localScale = Vector3.one * (radius * 2f);
         }
 
@@ -181,15 +240,25 @@ namespace SpherePath.GameState
             projectile.Expired += ResolveProjectileMiss;
         }
 
-        private void ResolveProjectileHit(Obstacle obstacle, float projectileRadius)
+        private void ResolveProjectileHit(Obstacle obstacle, float projectileRadius, Vector3 projectilePosition)
         {
-            var result = _obstacleClearing.ClearFromImpact(_scene.Obstacles, obstacle, projectileRadius);
-            _transientViewFactory.ShowInfectionRadius(obstacle.Position, result.InfectionRadius);
+            _impactShakeTime = 0.25f;
+            _transientViewFactory.ShowProjectileBurst(projectilePosition, projectileRadius);
+            var result = _obstacleClearing.ClearFromImpact(_scene.Obstacles, obstacle, projectilePosition, projectileRadius);
+            _transientViewFactory.ShowInfectionRadius(result.ImpactPosition, result.InfectionRadius);
+            _pendingObstacleDestructionCount = result.ClearedCount;
+
+            if (_pendingObstacleDestructionCount > 0)
+            {
+                return;
+            }
+
             ResolvePathAfterShot();
         }
 
-        private void ResolveProjectileMiss()
+        private void ResolveProjectileMiss(Vector3 projectilePosition, float projectileRadius)
         {
+            _transientViewFactory.ShowProjectileBurst(projectilePosition, projectileRadius);
             ResolvePathAfterShot();
         }
 
@@ -202,6 +271,7 @@ namespace SpherePath.GameState
 
             if (movedDistance > 0.05f)
             {
+                StartNextPlayerJump();
                 _phase = GamePhase.Moving;
                 return;
             }
@@ -217,23 +287,45 @@ namespace SpherePath.GameState
 
         private void MovePlayer(float deltaTime)
         {
-            _scene.Player.SetPosition(Vector3.MoveTowards(_scene.Player.Position, _moveTarget, _configuration.PlayerMoveSpeed * deltaTime));
+            var jumpDistance = GetFlatDistance(_jumpStartPosition, _jumpTargetPosition);
+            _jumpProgress = jumpDistance <= Mathf.Epsilon
+                ? 1f
+                : Mathf.Min(1f, _jumpProgress + _configuration.PlayerMoveSpeed * deltaTime / jumpDistance);
+
+            var easedProgress = Mathf.SmoothStep(0f, 1f, _jumpProgress);
+            var position = Vector3.Lerp(_jumpStartPosition, _jumpTargetPosition, easedProgress);
+            position.y += Mathf.Sin(_jumpProgress * Mathf.PI) * _configuration.PlayerJumpHeight;
+            _scene.Player.SetPosition(position);
+
+            if (_jumpProgress >= 1f)
+            {
+                _scene.Player.SetPosition(_jumpTargetPosition);
+
+                if (GetFlatDistance(_jumpTargetPosition, _moveTarget) > 0.02f)
+                {
+                    StartNextPlayerJump();
+                }
+            }
+
             UpdateCorridor();
+            UpdateLevelProgress();
             UpdateCameraFollow(deltaTime);
 
-            if (Vector3.Distance(_scene.Player.Position, _scene.DoorPosition) <= _configuration.DoorOpenDistance)
+            var distanceToDoor = GetFlatDistance(_scene.Player.Position, _scene.DoorPosition);
+
+            if (distanceToDoor <= _configuration.DoorOpenDistance)
             {
                 SetDoorOpen(true);
             }
 
-            if (Vector3.Distance(_scene.Player.Position, _moveTarget) <= 0.02f)
+            if (distanceToDoor <= _configuration.LevelCompleteDistance)
             {
-                if (Vector3.Distance(_scene.Player.Position, _scene.DoorPosition) <= 0.4f)
-                {
-                    Win();
-                    return;
-                }
+                Win();
+                return;
+            }
 
+            if (GetFlatDistance(_scene.Player.Position, _moveTarget) <= 0.02f)
+            {
                 if (ShouldLoseWhenBlocked())
                 {
                     Lose();
@@ -244,11 +336,33 @@ namespace SpherePath.GameState
             }
         }
 
+        private void StartNextPlayerJump()
+        {
+            var current = GetGroundedPlayerPosition();
+            var target = new Vector3(_moveTarget.x, current.y, _moveTarget.z);
+            var remaining = GetFlatDistance(current, target);
+
+            if (remaining <= 0.02f)
+            {
+                _jumpStartPosition = current;
+                _jumpTargetPosition = target;
+                _jumpProgress = 1f;
+                return;
+            }
+
+            var direction = GetFlatDirection(current, target);
+            var distance = Mathf.Min(_configuration.PlayerJumpDistance, remaining);
+            _jumpStartPosition = current;
+            _jumpTargetPosition = current + direction * distance;
+            _jumpProgress = 0f;
+        }
+
         private void Win()
         {
             _phase = GamePhase.Won;
+            _scene.Ui.SetLevelProgressValue(1f);
             SetDoorOpen(true);
-            _scene.Ui.ShowResult("WIN", "Tap restart to play again");
+            _completionTimer = CompletionDelay;
         }
 
         private void Lose()
@@ -268,9 +382,32 @@ namespace SpherePath.GameState
             _scene.CameraView.ResetShake();
         }
 
+        private void UpdateImpactShake(float deltaTime)
+        {
+            if (_impactShakeTime <= 0f)
+            {
+                return;
+            }
+
+            _impactShakeTime = Mathf.Max(0f, _impactShakeTime - deltaTime);
+            _scene.CameraView.SetShake(_impactShakeTime / 0.25f);
+        }
+
+        private void UpdateCompletion(float deltaTime)
+        {
+            _completionTimer -= deltaTime;
+
+            if (_completionTimer > 0f)
+            {
+                return;
+            }
+
+            Completed?.Invoke();
+        }
+
         private void UpdateCameraFollow(float deltaTime)
         {
-            _scene.CameraView.Follow(_scene.Player.Position, deltaTime);
+            _scene.CameraView.Follow(GetGroundedPlayerPosition(), deltaTime);
         }
 
         private void SnapCameraToPlayer()
@@ -280,8 +417,21 @@ namespace SpherePath.GameState
 
         private void SetDoorOpen(bool isOpen)
         {
-            _scene.DoorLeftPanel.localPosition = isOpen ? new Vector3(-0.9f, 0f, 0f) : new Vector3(-0.45f, 0f, 0f);
-            _scene.DoorRightPanel.localPosition = isOpen ? new Vector3(0.9f, 0f, 0f) : new Vector3(0.45f, 0f, 0f);
+            _isDoorOpen = isOpen;
+        }
+
+        private void UpdateDoor(float deltaTime)
+        {
+            var targetProgress = _isDoorOpen ? 1f : 0f;
+            _doorOpenProgress = Mathf.MoveTowards(_doorOpenProgress, targetProgress, deltaTime * 4f);
+            ApplyDoorPose();
+        }
+
+        private void ApplyDoorPose()
+        {
+            var easedProgress = Mathf.SmoothStep(0f, 1f, _doorOpenProgress);
+            _scene.DoorLeftPanel.localPosition = new Vector3(Mathf.Lerp(-0.45f, -0.9f, easedProgress), 0f, 0f);
+            _scene.DoorRightPanel.localPosition = new Vector3(Mathf.Lerp(0.45f, 0.9f, easedProgress), 0f, 0f);
         }
 
         private void UpdateEnergyView(float normalizedEnergy)
@@ -298,17 +448,95 @@ namespace SpherePath.GameState
         {
             var radius = _playerSize.GetRadius(_energy.Normalized);
             _scene.Player.SetRadius(radius);
-            UpdateCorridor();
+            UpdateCorridor(radius);
+        }
+
+        private float GetProjectedPlayerRadius()
+        {
+            return _playerSize.GetRadius(_energy.GetNormalizedAfterSpend(_shotCharge.EnergyCost));
+        }
+
+        private void UpdateLevelProgress()
+        {
+            var spawnPosition = new Vector3(_scene.PlayerSpawnPosition.x, 0f, _scene.PlayerSpawnPosition.z);
+            var doorPosition = new Vector3(_scene.DoorPosition.x, 0f, _scene.DoorPosition.z);
+            var playerPosition = new Vector3(_scene.Player.Position.x, 0f, _scene.Player.Position.z);
+            var route = doorPosition - spawnPosition;
+            var routeLength = route.magnitude;
+
+            if (routeLength <= Mathf.Epsilon)
+            {
+                _scene.Ui.SetLevelProgressValue(1f);
+                return;
+            }
+
+            var traveled = Vector3.Dot(playerPosition - spawnPosition, route.normalized);
+            _scene.Ui.SetLevelProgressValue(traveled / routeLength);
+        }
+
+        private Vector3 GetGroundedPlayerPosition()
+        {
+            return new Vector3(_scene.Player.Position.x, _scene.PlayerSpawnPosition.y, _scene.Player.Position.z);
+        }
+
+        private static float GetFlatDistance(Vector3 first, Vector3 second)
+        {
+            return Vector3.Distance(new Vector3(first.x, 0f, first.z), new Vector3(second.x, 0f, second.z));
+        }
+
+        private static Vector3 GetFlatDirection(Vector3 start, Vector3 target)
+        {
+            var direction = new Vector3(target.x - start.x, 0f, target.z - start.z);
+            return direction.sqrMagnitude <= Mathf.Epsilon ? Vector3.zero : direction.normalized;
+        }
+
+        private void ShowObstacleDestroyed(Obstacle obstacle)
+        {
+            _transientViewFactory.ShowObstacleBurst(obstacle.Position, obstacle.Radius);
+
+            if (_pendingObstacleDestructionCount <= 0)
+            {
+                return;
+            }
+
+            _pendingObstacleDestructionCount--;
+
+            if (_pendingObstacleDestructionCount > 0 || _phase != GamePhase.ProjectileFlying)
+            {
+                return;
+            }
+
+            ResolvePathAfterShot();
         }
 
         private void UpdateCorridor()
         {
+            UpdateCorridor(_scene.Player.Radius);
+        }
+
+        private void UpdateCorridor(float playerRadius)
+        {
             var start = _scene.Player.Position;
             var target = _scene.DoorPosition;
-            var midpoint = (start + target) * 0.5f;
-            var length = Vector3.Distance(start, target);
+            var startFlat = new Vector3(start.x, 0f, start.z);
+            var targetFlat = new Vector3(target.x, 0f, target.z);
+            var midpoint = (startFlat + targetFlat) * 0.5f;
+            var length = Vector3.Distance(startFlat, targetFlat);
+            var pathWidth = playerRadius * 2f;
+            var visualWidth = pathWidth + CorridorVisualPadding * 2f;
+            var pathMinX = CorridorVisualPadding / visualWidth;
             _scene.Corridor.position = new Vector3(midpoint.x, 0.02f, midpoint.z);
-            _scene.Corridor.localScale = new Vector3(_scene.Player.Radius * 2f, 0.04f, length);
+            _scene.Corridor.localScale = new Vector3(visualWidth, 0.04f, length);
+
+            if (_corridorRenderer == null)
+            {
+                return;
+            }
+
+            _corridorRenderer.GetPropertyBlock(_corridorPropertyBlock);
+            _corridorPropertyBlock.SetFloat(PathMinXProperty, pathMinX);
+            _corridorPropertyBlock.SetFloat(PathMaxXProperty, 1f - pathMinX);
+            _corridorRenderer.SetPropertyBlock(_corridorPropertyBlock);
         }
     }
 }

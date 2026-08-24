@@ -6,14 +6,16 @@ namespace SpherePath.Shooting
     public sealed class ShotChargeService
     {
         private readonly PlayerEnergy _energy;
-        private readonly PlayerSizeService _playerSize;
         private readonly ChargeMeter _chargeMeter;
+        private readonly float _minimumProjectileRadius;
+        private readonly float _maximumProjectileRadius;
 
-        public ShotChargeService(PlayerEnergy energy, PlayerSizeService playerSize, ChargeMeter chargeMeter)
+        public ShotChargeService(PlayerEnergy energy, ChargeMeter chargeMeter, float minimumProjectileRadius, float maximumProjectileRadius)
         {
             _energy = energy;
-            _playerSize = playerSize;
             _chargeMeter = chargeMeter;
+            _minimumProjectileRadius = Mathf.Max(0.01f, minimumProjectileRadius);
+            _maximumProjectileRadius = Mathf.Max(_minimumProjectileRadius, maximumProjectileRadius);
         }
 
         public float NormalizedCharge => _chargeMeter.Normalized;
@@ -61,10 +63,10 @@ namespace SpherePath.Shooting
         {
             if (_energy.MaximumEnergy <= Mathf.Epsilon)
             {
-                return _playerSize.GetRadius(0f);
+                return _minimumProjectileRadius;
             }
 
-            return _playerSize.GetRadius(Mathf.Clamp01(energyCost / _energy.MaximumEnergy));
+            return Mathf.Lerp(_minimumProjectileRadius, _maximumProjectileRadius, Mathf.Clamp01(energyCost / _energy.MaximumEnergy));
         }
     }
 }

@@ -16,13 +16,19 @@ MonoBehaviour:
   minimumPlayerRadius: 0.35
   maximumPlayerRadius: 1.1
   maxChargeTime: 1.6
-  minimumShotCost: 0.65
+  minimumShotCost: 0.25
+  minimumProjectileRadius: 0.18
+  maximumProjectileRadius: 1.1
   projectileSpeed: 18
   projectileLifeTime: 4
   projectileExitDistance: 1.5
+  projectileImpactRadius: 0.9
   infectionRadiusMultiplier: 2.25
-  playerMoveSpeed: 7
+  playerMoveSpeed: 4.6
+  playerJumpDistance: 1.35
+  playerJumpHeight: 0.65
   cameraFollowSpeed: 6
   doorOpenDistance: 5
+  levelCompleteDistance: 1.2
   pathLateralClearance: 0
   pathStopDistance: 4
