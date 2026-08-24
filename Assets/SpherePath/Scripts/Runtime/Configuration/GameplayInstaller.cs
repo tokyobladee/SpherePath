@@ -17,18 +17,17 @@ namespace SpherePath.Configuration
             container.Bind<PlayerEnergy>().AsSingle().WithArguments(configuration.MaximumEnergy);
             container.Bind<PlayerSizeService>().AsSingle().WithArguments(configuration.MinimumPlayerRadius, configuration.MaximumPlayerRadius);
             container.Bind<PlayerViabilityService>().AsSingle();
-            container.Bind<ChargeMeter>().AsSingle().WithArguments(configuration.MaxChargeTime, configuration.MinimumProjectileRadius, configuration.MaximumProjectileRadius, configuration.MinimumShotCost, configuration.MaximumShotCost);
+            container.Bind<ChargeMeter>().AsSingle().WithArguments(configuration.MaxChargeTime, configuration.MinimumShotCost);
             container.Bind<ShotChargeService>().AsSingle();
             container.Bind<PointerChargeInput>().AsSingle();
             container.Bind<ObstacleClearingService>().AsSingle().WithArguments(configuration.InfectionRadiusMultiplier);
-            container.Bind<ObstacleFieldLayout>().AsSingle();
-            container.Bind<LevelViewFactory>().AsSingle();
         }
 
         public void InstallScene(DiContainer container, LevelViewReferences sceneReferences, GameplayConfiguration configuration)
         {
             container.BindInstance(sceneReferences).AsSingle();
             container.Bind<PathClearanceService>().AsSingle().WithArguments(sceneReferences.Obstacles, configuration.PathLateralClearance, configuration.PathStopDistance);
+            container.Bind<TransientViewFactory>().AsSingle();
             container.Bind<GameController>().AsSingle();
         }
     }

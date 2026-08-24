@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 710000002}
   - component: {fileID: 710000003}
   m_Layer: 0
-  m_Name: SpherePath Game Controller
+  m_Name: EntryPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,21 +427,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f24763a31fc42f4ab5c1b9f5ad6a1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumEnergy: 10
-  minimumEnergy: 1.2
-  minimumPlayerRadius: 0.35
-  maximumPlayerRadius: 1.1
-  maxChargeTime: 1.6
-  minimumProjectileRadius: 0.25
-  maximumProjectileRadius: 1.25
-  minimumShotCost: 0.65
-  maximumShotCost: 3.1
-  projectileSpeed: 18
-  projectileLifeTime: 4
-  infectionRadiusMultiplier: 2.25
-  playerMoveSpeed: 7
-  cameraFollowSpeed: 6
-  doorOpenDistance: 5
+  configuration: {fileID: 11400000, guid: 6b52df1879304ce9a67f8e936291564d, type: 2}
+  levelPrefab: {fileID: 0}
+  levelParent: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

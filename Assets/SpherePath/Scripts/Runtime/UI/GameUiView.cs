@@ -4,36 +4,34 @@ using UnityEngine.UI;
 
 namespace SpherePath.UI
 {
-    public sealed class GameUiView
+    public sealed class GameUiView : MonoBehaviour
     {
-        private readonly Slider _energySlider;
-        private readonly Text _statusText;
-        private readonly GameObject _resultPanel;
-        private readonly Text _resultHintText;
-        private readonly Button _restartButton;
-        private readonly RectTransform _safeArea;
+        [SerializeField] private Slider energySlider;
+        [SerializeField] private Text statusText;
+        [SerializeField] private GameObject resultPanel;
+        [SerializeField] private Text resultHintText;
+        [SerializeField] private Button restartButton;
+        [SerializeField] private RectTransform safeArea;
 
         private Rect _currentSafeArea;
 
-        public GameUiView(Slider energySlider, Text statusText, GameObject resultPanel, Text resultHintText, Button restartButton, RectTransform safeArea)
+        public event Action RestartClicked;
+
+        private void OnEnable()
         {
-            _energySlider = energySlider;
-            _statusText = statusText;
-            _resultPanel = resultPanel;
-            _resultHintText = resultHintText;
-            _restartButton = restartButton;
-            _safeArea = safeArea;
-            _restartButton.onClick.AddListener(HandleRestartClicked);
+            if (restartButton != null)
+            {
+                restartButton.onClick.AddListener(HandleRestartClicked);
+            }
+
             RefreshSafeArea();
         }
 
-        public event Action RestartClicked;
-
-        public void Dispose()
+        private void OnDisable()
         {
-            if (_restartButton != null)
+            if (restartButton != null)
             {
-                _restartButton.onClick.RemoveListener(HandleRestartClicked);
+                restartButton.onClick.RemoveListener(HandleRestartClicked);
             }
         }
 
@@ -41,9 +39,9 @@ namespace SpherePath.UI
         {
             RefreshSafeArea();
 
-            if (_energySlider != null)
+            if (energySlider != null)
             {
-                _energySlider.value = normalizedEnergy;
+                energySlider.value = normalizedEnergy;
             }
         }
 
@@ -51,9 +49,9 @@ namespace SpherePath.UI
         {
             SetStatus(string.Empty);
 
-            if (_resultPanel != null)
+            if (resultPanel != null)
             {
-                _resultPanel.SetActive(false);
+                resultPanel.SetActive(false);
             }
         }
 
@@ -61,22 +59,22 @@ namespace SpherePath.UI
         {
             SetStatus(title);
 
-            if (_resultHintText != null)
+            if (resultHintText != null)
             {
-                _resultHintText.text = hint;
+                resultHintText.text = hint;
             }
 
-            if (_resultPanel != null)
+            if (resultPanel != null)
             {
-                _resultPanel.SetActive(true);
+                resultPanel.SetActive(true);
             }
         }
 
         private void SetStatus(string value)
         {
-            if (_statusText != null)
+            if (statusText != null)
             {
-                _statusText.text = value;
+                statusText.text = value;
             }
         }
 
@@ -87,7 +85,7 @@ namespace SpherePath.UI
 
         private void RefreshSafeArea()
         {
-            if (_safeArea == null || _currentSafeArea == Screen.safeArea || Screen.width <= 0 || Screen.height <= 0)
+            if (safeArea == null || _currentSafeArea == Screen.safeArea || Screen.width <= 0 || Screen.height <= 0)
             {
                 return;
             }
@@ -99,10 +97,10 @@ namespace SpherePath.UI
             anchorMin.y /= Screen.height;
             anchorMax.x /= Screen.width;
             anchorMax.y /= Screen.height;
-            _safeArea.anchorMin = anchorMin;
-            _safeArea.anchorMax = anchorMax;
-            _safeArea.offsetMin = Vector2.zero;
-            _safeArea.offsetMax = Vector2.zero;
+            safeArea.anchorMin = anchorMin;
+            safeArea.anchorMax = anchorMax;
+            safeArea.offsetMin = Vector2.zero;
+            safeArea.offsetMax = Vector2.zero;
         }
     }
 }

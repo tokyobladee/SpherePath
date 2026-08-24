@@ -8,34 +8,23 @@ namespace SpherePath.Bootstrap
 {
     public sealed class EntryPoint : MonoBehaviour
     {
-        [SerializeField] private float maximumEnergy = 10f;
-        [SerializeField] private float minimumPlayerRadius = 0.35f;
-        [SerializeField] private float maximumPlayerRadius = 1.1f;
-        [SerializeField] private float maxChargeTime = 1.6f;
-        [SerializeField] private float minimumProjectileRadius = 0.25f;
-        [SerializeField] private float maximumProjectileRadius = 1.25f;
-        [SerializeField] private float minimumShotCost = 0.65f;
-        [SerializeField] private float maximumShotCost = 3.1f;
-        [SerializeField] private float projectileSpeed = 18f;
-        [SerializeField] private float projectileLifeTime = 4f;
-        [SerializeField] private float infectionRadiusMultiplier = 2.25f;
-        [SerializeField] private float playerMoveSpeed = 7f;
-        [SerializeField] private float cameraFollowSpeed = 6f;
-        [SerializeField] private float doorOpenDistance = 5f;
+        [SerializeField] private GameplayConfiguration configuration;
+        [SerializeField] private LevelViewReferences levelPrefab;
+        [SerializeField] private Transform levelParent;
 
         private DiContainer _container;
         private GameController _controller;
+        private LevelViewReferences _level;
 
         private void Awake()
         {
             LockPortraitOrientation();
-            var configuration = CreateConfiguration();
+            ValidateReferences();
+            _level = CreateLevel();
             _container = new DiContainer();
             var installer = new GameplayInstaller();
             installer.Install(_container, configuration);
-            var sceneFactory = _container.Resolve<LevelViewFactory>();
-            var sceneReferences = sceneFactory.Build();
-            installer.InstallScene(_container, sceneReferences, configuration);
+            installer.InstallScene(_container, _level, configuration);
             _controller = _container.Resolve<GameController>();
             _controller.Initialize();
         }
@@ -50,27 +39,28 @@ namespace SpherePath.Bootstrap
             _controller?.Dispose();
         }
 
-        private GameplayConfiguration CreateConfiguration()
+        private void ValidateReferences()
         {
-            return new GameplayConfiguration(
-                maximumEnergy,
-                minimumPlayerRadius,
-                maximumPlayerRadius,
-                maxChargeTime,
-                minimumProjectileRadius,
-                maximumProjectileRadius,
-                minimumShotCost,
-                maximumShotCost,
-                projectileSpeed,
-                projectileLifeTime,
-                infectionRadiusMultiplier,
-                playerMoveSpeed,
-                cameraFollowSpeed,
-                doorOpenDistance,
-                0.2f,
-                4f,
-                new Vector3(0f, maximumPlayerRadius, -12f),
-                new Vector3(0f, 1.5f, 16f));
+            if (configuration == null)
+            {
+                throw new System.InvalidOperationException($"{nameof(EntryPoint)} requires {nameof(configuration)}.");
+            }
+
+            if (levelPrefab == null)
+            {
+                throw new System.InvalidOperationException($"{nameof(EntryPoint)} requires {nameof(levelPrefab)}.");
+            }
+
+            configuration.Validate();
+        }
+
+        private LevelViewReferences CreateLevel()
+        {
+            var level = levelPrefab.gameObject.scene.IsValid()
+                ? levelPrefab
+                : Instantiate(levelPrefab, levelParent);
+            level.Validate();
+            return level;
         }
 
         private void LockPortraitOrientation()

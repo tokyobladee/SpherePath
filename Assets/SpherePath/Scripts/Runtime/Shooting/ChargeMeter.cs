@@ -5,27 +5,41 @@ namespace SpherePath.Shooting
     public sealed class ChargeMeter
     {
         private readonly float _maxChargeTime;
-        private readonly float _minProjectileRadius;
-        private readonly float _maxProjectileRadius;
         private readonly float _minEnergyCost;
-        private readonly float _maxEnergyCost;
 
         private float _chargeTime;
 
-        public ChargeMeter(float maxChargeTime, float minProjectileRadius, float maxProjectileRadius, float minEnergyCost, float maxEnergyCost)
+        public ChargeMeter(float maxChargeTime, float minEnergyCost)
         {
             _maxChargeTime = Mathf.Max(0.01f, maxChargeTime);
-            _minProjectileRadius = Mathf.Max(0.01f, minProjectileRadius);
-            _maxProjectileRadius = Mathf.Max(_minProjectileRadius, maxProjectileRadius);
             _minEnergyCost = Mathf.Max(0f, minEnergyCost);
-            _maxEnergyCost = Mathf.Max(_minEnergyCost, maxEnergyCost);
         }
 
         public float Normalized => Mathf.Clamp01(_chargeTime / _maxChargeTime);
 
-        public float ProjectileRadius => Mathf.Lerp(_minProjectileRadius, _maxProjectileRadius, Normalized);
+        public float GetEnergyCost(float energyBudget)
+        {
+            var budget = Mathf.Max(0f, energyBudget);
+            var minimumCost = Mathf.Min(_minEnergyCost, budget);
+            return Mathf.Lerp(minimumCost, budget, Normalized);
+        }
 
-        public float EnergyCost => Mathf.Lerp(_minEnergyCost, _maxEnergyCost, Normalized);
+        public bool HasReachedEnergyBudget(float energyBudget)
+        {
+            var budget = Mathf.Max(0f, energyBudget);
+            return GetEnergyCost(budget) >= budget - Mathf.Epsilon;
+        }
+
+        public void ClampToEnergyBudget(float energyBudget)
+        {
+            if (Mathf.Max(0f, energyBudget) <= Mathf.Epsilon)
+            {
+                _chargeTime = 0f;
+                return;
+            }
+
+            _chargeTime = Mathf.Min(_chargeTime, _maxChargeTime);
+        }
 
         public void Reset()
         {

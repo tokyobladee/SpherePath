@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2efe2d4edf664d6db894900ffff1a372, type: 3}
+  m_Name: DefaultGameplayConfiguration
+  m_EditorClassIdentifier:
+  maximumEnergy: 10
+  minimumPlayerRadius: 0.35
+  maximumPlayerRadius: 1.1
+  maxChargeTime: 1.6
+  minimumShotCost: 0.65
+  projectileSpeed: 18
+  projectileLifeTime: 4
+  infectionRadiusMultiplier: 2.25
+  playerMoveSpeed: 7
+  cameraFollowSpeed: 6
+  doorOpenDistance: 5
+  pathLateralClearance: 0
+  pathStopDistance: 4

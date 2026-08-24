@@ -26,6 +26,16 @@ namespace SpherePath.Player
             return CurrentEnergy - Mathf.Max(0f, amount) >= 0f;
         }
 
+        public float GetNormalizedAfterSpend(float amount)
+        {
+            if (MaximumEnergy <= 0f)
+            {
+                return 0f;
+            }
+
+            return Mathf.Clamp01((CurrentEnergy - Mathf.Max(0f, amount)) / MaximumEnergy);
+        }
+
         public void Spend(float amount)
         {
             CurrentEnergy = Mathf.Max(0f, CurrentEnergy - Mathf.Max(0f, amount));

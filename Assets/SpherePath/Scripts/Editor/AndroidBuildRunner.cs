@@ -7,7 +7,7 @@ namespace SpherePath.Editor
 {
     public static class AndroidBuildRunner
     {
-        private const string ScenePath = "Assets/SpherePath/Scenes/SampleScene.unity";
+        private const string ScenePath = "Assets/SpherePath/Scenes/Main.unity";
         private const string OutputPath = "Builds/Android/SpherePath.apk";
 
         [MenuItem("SpherePath/Build Android APK")]
