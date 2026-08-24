@@ -53,56 +53,62 @@ namespace SpherePath.Configuration
         [SerializeField] private float projectileLiquidFrequency = 12f;
         [SerializeField] private float projectileLiquidForwardStretch = 0.1f;
         [SerializeField] private float projectileLiquidSideSquash = 0.06f;
-        [SerializeField] private float projectileTrailTime = 0.32f;
-        [SerializeField] private float projectileTrailWidthMultiplier = 1.55f;
+        [SerializeField] private float projectileTrailTime = 0.34f;
+        [SerializeField] private float projectileTrailWidthMultiplier = 0.45f;
         [SerializeField] private float projectileTrailMinVertexDistance = 0.02f;
-        [SerializeField] private int projectileTrailCornerVertices = 8;
         [SerializeField] private float infectionPreviewGroundOffset = 0.04f;
         [SerializeField] private float infectionPreviewHeight = 0.02f;
         [SerializeField] private float infectionPreviewLifetime = 0.35f;
-        [SerializeField] private float projectileBurstLifetime = 0.42f;
-        [SerializeField] private float projectileBurstMinimumSpeed = 4.5f;
-        [SerializeField] private float projectileBurstSpeedMultiplier = 7f;
-        [SerializeField] private float projectileBurstMinimumSize = 0.16f;
-        [SerializeField] private float projectileBurstSizeMultiplier = 0.24f;
-        [SerializeField] private Color projectileBurstColor = new Color(1f, 0.88f, 0.25f, 1f);
+        [SerializeField] private float projectileBurstLifetime = 0.48f;
+        [SerializeField] private float projectileBurstMinimumSpeed = 5f;
+        [SerializeField] private float projectileBurstSpeedMultiplier = 8f;
+        [SerializeField] private float projectileBurstMinimumSize = 0.2f;
+        [SerializeField] private float projectileBurstSizeMultiplier = 0.32f;
+        [SerializeField] private Color projectileBurstColor = new Color(1f, 0.78f, 0.18f, 1f);
         [SerializeField] private float projectileBurstGravity = 0.25f;
-        [SerializeField] private int projectileBurstMaxParticles = 96;
+        [SerializeField] private int projectileBurstMaxParticles = 80;
         [SerializeField] private float projectileBurstMinimumShapeRadius = 0.08f;
         [SerializeField] private float projectileBurstShapeRadiusMultiplier = 0.35f;
-        [SerializeField] private float projectileBurstParticleMultiplier = 48f;
-        [SerializeField] private int projectileBurstMinimumParticleCount = 24;
-        [SerializeField] private int projectileBurstMaximumParticleCount = 72;
+        [SerializeField] private float projectileBurstParticleMultiplier = 66f;
+        [SerializeField] private int projectileBurstMinimumParticleCount = 32;
+        [SerializeField] private int projectileBurstMaximumParticleCount = 76;
         [SerializeField] private float projectileBurstObjectLifetime = 0.9f;
-        [SerializeField] private float obstacleBurstLifetime = 0.55f;
+        [SerializeField] private float obstacleBurstLifetime = 0.48f;
         [SerializeField] private float obstacleBurstMinimumSpeed = 2f;
         [SerializeField] private float obstacleBurstSpeedMultiplier = 4.5f;
-        [SerializeField] private float obstacleBurstMinimumSize = 0.12f;
-        [SerializeField] private float obstacleBurstSizeMultiplier = 0.28f;
-        [SerializeField] private Color obstacleBurstColor = new Color(0.48f, 0.9f, 0.42f, 1f);
-        [SerializeField] private float obstacleBurstGravity = 1.1f;
-        [SerializeField] private int obstacleBurstMaxParticles = 64;
+        [SerializeField] private float obstacleBurstMinimumSize = 0.15f;
+        [SerializeField] private float obstacleBurstSizeMultiplier = 0.34f;
+        [SerializeField] private Color obstacleBurstColor = new Color(0.58f, 0.95f, 0.5f, 1f);
+        [SerializeField] private float obstacleBurstGravity = 1.35f;
+        [SerializeField] private int obstacleBurstMaxParticles = 80;
         [SerializeField] private float obstacleBurstMinimumShapeRadius = 0.1f;
         [SerializeField] private float obstacleBurstShapeRadiusMultiplier = 0.3f;
-        [SerializeField] private float obstacleBurstParticleMultiplier = 42f;
-        [SerializeField] private int obstacleBurstMinimumParticleCount = 18;
-        [SerializeField] private int obstacleBurstMaximumParticleCount = 56;
+        [SerializeField] private float obstacleBurstParticleMultiplier = 70f;
+        [SerializeField] private int obstacleBurstMinimumParticleCount = 34;
+        [SerializeField] private int obstacleBurstMaximumParticleCount = 80;
         [SerializeField] private float obstacleBurstObjectLifetime = 1f;
         [SerializeField] private float impactBurstHeight = 0.4f;
-        [SerializeField] private float impactBurstLifetime = 0.35f;
-        [SerializeField] private float impactBurstMinimumSpeed = 2f;
-        [SerializeField] private float impactBurstSpeedMultiplier = 2f;
-        [SerializeField] private float impactBurstMinimumSize = 0.12f;
-        [SerializeField] private float impactBurstSizeMultiplier = 0.18f;
+        [SerializeField] private float impactBurstLifetime = 0.28f;
+        [SerializeField] private float impactBurstMinimumSpeed = 1.7f;
+        [SerializeField] private float impactBurstSpeedMultiplier = 1.6f;
+        [SerializeField] private float impactBurstMinimumSize = 0.18f;
+        [SerializeField] private float impactBurstSizeMultiplier = 0.26f;
+        [SerializeField] private Color impactBurstColor = new Color(1f, 0.86f, 0.26f, 1f);
+        [SerializeField] private float impactBurstGravity = 0.3f;
         [SerializeField] private int impactBurstMaxParticles = 64;
         [SerializeField] private float impactBurstMinimumShapeRadius = 0.1f;
         [SerializeField] private float impactBurstShapeRadiusMultiplier = 0.2f;
-        [SerializeField] private float impactBurstParticleMultiplier = 22f;
-        [SerializeField] private int impactBurstMinimumParticleCount = 12;
-        [SerializeField] private int impactBurstMaximumParticleCount = 48;
-        [SerializeField] private float impactBurstObjectLifetime = 0.8f;
+        [SerializeField] private float impactBurstParticleMultiplier = 46f;
+        [SerializeField] private int impactBurstMinimumParticleCount = 28;
+        [SerializeField] private int impactBurstMaximumParticleCount = 64;
+        [SerializeField] private float impactBurstObjectLifetime = 0.75f;
         [SerializeField] private float obstacleClearFlashDuration = 0.5f;
         [SerializeField] private float obstacleClearShrinkDuration = 0.12f;
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private GameObject infectionPreviewPrefab;
+        [SerializeField] private GameObject projectileBurstPrefab;
+        [SerializeField] private GameObject obstacleBurstPrefab;
+        [SerializeField] private GameObject impactBurstPrefab;
 
         public float MaximumEnergy => Mathf.Max(0f, maximumEnergy);
 
@@ -206,8 +212,6 @@ namespace SpherePath.Configuration
 
         public float ProjectileTrailMinVertexDistance => Mathf.Max(0f, projectileTrailMinVertexDistance);
 
-        public int ProjectileTrailCornerVertices => Mathf.Max(0, projectileTrailCornerVertices);
-
         public float InfectionPreviewGroundOffset => infectionPreviewGroundOffset;
 
         public float InfectionPreviewHeight => Mathf.Max(0.01f, infectionPreviewHeight);
@@ -282,6 +286,10 @@ namespace SpherePath.Configuration
 
         public float ImpactBurstSizeMultiplier => Mathf.Max(0f, impactBurstSizeMultiplier);
 
+        public Color ImpactBurstColor => impactBurstColor;
+
+        public float ImpactBurstGravity => impactBurstGravity;
+
         public int ImpactBurstMaxParticles => Mathf.Max(0, impactBurstMaxParticles);
 
         public float ImpactBurstMinimumShapeRadius => Mathf.Max(0f, impactBurstMinimumShapeRadius);
@@ -299,6 +307,16 @@ namespace SpherePath.Configuration
         public float ObstacleClearFlashDuration => Mathf.Max(0f, obstacleClearFlashDuration);
 
         public float ObstacleClearShrinkDuration => Mathf.Max(0.01f, obstacleClearShrinkDuration);
+
+        public GameObject ProjectilePrefab => projectilePrefab;
+
+        public GameObject InfectionPreviewPrefab => infectionPreviewPrefab;
+
+        public GameObject ProjectileBurstPrefab => projectileBurstPrefab;
+
+        public GameObject ObstacleBurstPrefab => obstacleBurstPrefab;
+
+        public GameObject ImpactBurstPrefab => impactBurstPrefab;
 
         public void Validate()
         {
@@ -340,6 +358,11 @@ namespace SpherePath.Configuration
             if (playerJumpDistance <= 0f || playerJumpHeight < 0f)
             {
                 throw new System.InvalidOperationException($"{nameof(GameplayConfiguration)} requires valid jump tuning values.");
+            }
+
+            if (projectilePrefab == null || infectionPreviewPrefab == null || projectileBurstPrefab == null || obstacleBurstPrefab == null || impactBurstPrefab == null)
+            {
+                throw new System.InvalidOperationException($"{nameof(GameplayConfiguration)} has missing transient prefabs.");
             }
         }
     }

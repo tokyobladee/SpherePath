@@ -60,53 +60,59 @@ MonoBehaviour:
   projectileLiquidFrequency: 12
   projectileLiquidForwardStretch: 0.1
   projectileLiquidSideSquash: 0.06
-  projectileTrailTime: 0.32
-  projectileTrailWidthMultiplier: 1.55
+  projectileTrailTime: 0.34
+  projectileTrailWidthMultiplier: 0.45
   projectileTrailMinVertexDistance: 0.02
-  projectileTrailCornerVertices: 8
   infectionPreviewGroundOffset: 0.04
   infectionPreviewHeight: 0.02
   infectionPreviewLifetime: 0.35
-  projectileBurstLifetime: 0.42
-  projectileBurstMinimumSpeed: 4.5
-  projectileBurstSpeedMultiplier: 7
-  projectileBurstMinimumSize: 0.16
-  projectileBurstSizeMultiplier: 0.24
-  projectileBurstColor: {r: 1, g: 0.88, b: 0.25, a: 1}
+  projectileBurstLifetime: 0.48
+  projectileBurstMinimumSpeed: 5
+  projectileBurstSpeedMultiplier: 8
+  projectileBurstMinimumSize: 0.2
+  projectileBurstSizeMultiplier: 0.32
+  projectileBurstColor: {r: 1, g: 0.78, b: 0.18, a: 1}
   projectileBurstGravity: 0.25
-  projectileBurstMaxParticles: 96
+  projectileBurstMaxParticles: 80
   projectileBurstMinimumShapeRadius: 0.08
   projectileBurstShapeRadiusMultiplier: 0.35
-  projectileBurstParticleMultiplier: 48
-  projectileBurstMinimumParticleCount: 24
-  projectileBurstMaximumParticleCount: 72
+  projectileBurstParticleMultiplier: 66
+  projectileBurstMinimumParticleCount: 32
+  projectileBurstMaximumParticleCount: 76
   projectileBurstObjectLifetime: 0.9
-  obstacleBurstLifetime: 0.55
+  obstacleBurstLifetime: 0.48
   obstacleBurstMinimumSpeed: 2
   obstacleBurstSpeedMultiplier: 4.5
-  obstacleBurstMinimumSize: 0.12
-  obstacleBurstSizeMultiplier: 0.28
-  obstacleBurstColor: {r: 0.48, g: 0.9, b: 0.42, a: 1}
-  obstacleBurstGravity: 1.1
-  obstacleBurstMaxParticles: 64
+  obstacleBurstMinimumSize: 0.15
+  obstacleBurstSizeMultiplier: 0.34
+  obstacleBurstColor: {r: 0.58, g: 0.95, b: 0.5, a: 1}
+  obstacleBurstGravity: 1.35
+  obstacleBurstMaxParticles: 80
   obstacleBurstMinimumShapeRadius: 0.1
   obstacleBurstShapeRadiusMultiplier: 0.3
-  obstacleBurstParticleMultiplier: 42
-  obstacleBurstMinimumParticleCount: 18
-  obstacleBurstMaximumParticleCount: 56
+  obstacleBurstParticleMultiplier: 70
+  obstacleBurstMinimumParticleCount: 34
+  obstacleBurstMaximumParticleCount: 80
   obstacleBurstObjectLifetime: 1
   impactBurstHeight: 0.4
-  impactBurstLifetime: 0.35
-  impactBurstMinimumSpeed: 2
-  impactBurstSpeedMultiplier: 2
-  impactBurstMinimumSize: 0.12
-  impactBurstSizeMultiplier: 0.18
+  impactBurstLifetime: 0.28
+  impactBurstMinimumSpeed: 1.7
+  impactBurstSpeedMultiplier: 1.6
+  impactBurstMinimumSize: 0.18
+  impactBurstSizeMultiplier: 0.26
+  impactBurstColor: {r: 1, g: 0.86, b: 0.26, a: 1}
+  impactBurstGravity: 0.3
   impactBurstMaxParticles: 64
   impactBurstMinimumShapeRadius: 0.1
   impactBurstShapeRadiusMultiplier: 0.2
-  impactBurstParticleMultiplier: 22
-  impactBurstMinimumParticleCount: 12
-  impactBurstMaximumParticleCount: 48
-  impactBurstObjectLifetime: 0.8
+  impactBurstParticleMultiplier: 46
+  impactBurstMinimumParticleCount: 28
+  impactBurstMaximumParticleCount: 64
+  impactBurstObjectLifetime: 0.75
   obstacleClearFlashDuration: 0.5
   obstacleClearShrinkDuration: 0.12
+  projectilePrefab: {fileID: 100100000000000000, guid: b01e0a4dfc764930928335276e46c2fb, type: 3}
+  infectionPreviewPrefab: {fileID: 100200000000000000, guid: b02e0a4dfc764930928335276e46c2fb, type: 3}
+  projectileBurstPrefab: {fileID: 100300000000000000, guid: b03e0a4dfc764930928335276e46c2fb, type: 3}
+  obstacleBurstPrefab: {fileID: 100400000000000000, guid: b04e0a4dfc764930928335276e46c2fb, type: 3}
+  impactBurstPrefab: {fileID: 100500000000000000, guid: b05e0a4dfc764930928335276e46c2fb, type: 3}

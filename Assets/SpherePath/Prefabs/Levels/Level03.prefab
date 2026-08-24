@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &335197084980616532
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &570708626181009498
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &726887947353294494
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &823956162188704225
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +752,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &1025547549878301009
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,7 +880,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &1081155167741764586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &1411428538366003191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,7 +1687,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &1869175987794211740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &2366882650802438751
 GameObject:
   m_ObjectHideFlags: 0
@@ -2569,7 +2560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &2574228448351088488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,8 +2666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af4c6b0dd481cc4a941a9a423506e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Cameras.FollowCameraView
-  followOffset: {x: 0, y: 18.5, z: -8.5}
-  followSpeed: 6
 --- !u!114 &4097389594200212821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2850,7 +2838,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &3510151723408027210
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,7 +3168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &3725030244676275801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3310,7 +3296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &3741902496253725544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3424,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &4590585447796044855
 GameObject:
   m_ObjectHideFlags: 0
@@ -3568,7 +3552,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &4592857204115476145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3728,7 +3711,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &5228309574136101380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,7 +4344,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &6277407842489499195
 GameObject:
   m_ObjectHideFlags: 0
@@ -4491,7 +4472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &6472550385159715271
 GameObject:
   m_ObjectHideFlags: 0
@@ -4620,7 +4600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &6661124696094771239
 GameObject:
   m_ObjectHideFlags: 0
@@ -4749,7 +4728,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &6757379510290846227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4938,7 +4916,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9111519752189420016
 CanvasRenderer:
@@ -5106,7 +5084,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &7195064502108930554
 GameObject:
   m_ObjectHideFlags: 0
@@ -5325,7 +5302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &8026430042954017047
 GameObject:
   m_ObjectHideFlags: 0
@@ -5615,7 +5591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
 --- !u!1 &8589353887936646951
 GameObject:
   m_ObjectHideFlags: 0
@@ -6384,6 +6359,85 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &9103100000000000100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9103100000000000101}
+  - component: {fileID: 9103100000000000102}
+  - component: {fileID: 9103100000000000103}
+  m_Layer: 0
+  m_Name: Energy Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9103100000000000101
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103100000000000100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1290705790759030005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.18, y: 0.074}
+  m_AnchorMax: {x: 0.82, y: 0.112}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9103100000000000102
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103100000000000100}
+  m_CullTransparentMesh: 1
+--- !u!114 &9103100000000000103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103100000000000100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 18
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 18
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: energy
 --- !u!1 &9114699128688484214
 GameObject:
   m_ObjectHideFlags: 0
@@ -6512,83 +6566,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
-  clearFlashDuration: 0.5
---- !u!1 &9103100000000000100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9103100000000000101}
-  - component: {fileID: 9103100000000000102}
-  - component: {fileID: 9103100000000000103}
-  m_Layer: 0
-  m_Name: Energy Label
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &9103100000000000101
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9103100000000000100}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1290705790759030005}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.18, y: 0.074}
-  m_AnchorMax: {x: 0.82, y: 0.112}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &9103100000000000102
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9103100000000000100}
-  m_CullTransparentMesh: 1
---- !u!114 &9103100000000000103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9103100000000000100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.9}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
-    m_FontStyle: 1
-    m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 18
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: energy

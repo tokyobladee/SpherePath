@@ -11,7 +11,7 @@ namespace SpherePath.Level
         private readonly GameplayConfiguration _configuration;
         private readonly Transform _corridor;
         private readonly Renderer _renderer;
-        private readonly MaterialPropertyBlock _propertyBlock = new MaterialPropertyBlock();
+        private MaterialPropertyBlock _propertyBlock;
 
         public CorridorIndicator(GameplayConfiguration configuration, LevelViewReferences scene)
         {
@@ -35,6 +35,11 @@ namespace SpherePath.Level
             if (_renderer == null)
             {
                 return;
+            }
+
+            if (_propertyBlock == null)
+            {
+                _propertyBlock = new MaterialPropertyBlock();
             }
 
             _renderer.GetPropertyBlock(_propertyBlock);
