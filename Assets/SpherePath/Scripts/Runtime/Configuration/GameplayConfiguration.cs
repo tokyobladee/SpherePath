@@ -41,18 +41,18 @@ namespace SpherePath.Configuration
         [SerializeField] private float doorOpenRightPanelX = 0.9f;
         [SerializeField] private float doorOpenSpeed = 4f;
         [SerializeField] private float minimumRenderedRadius = 0.05f;
-        [SerializeField] private float playerChargeVerticalScale = 0.82f;
-        [SerializeField] private float playerChargeHorizontalScale = 1.12f;
-        [SerializeField] private float playerIdlePulseFrequency = 3f;
-        [SerializeField] private float playerIdlePulseScale = 0.025f;
+        [SerializeField] private float playerChargeVerticalScale = 0.92f;
+        [SerializeField] private float playerChargeHorizontalScale = 1.05f;
+        [SerializeField] private float playerIdlePulseFrequency = 2.6f;
+        [SerializeField] private float playerIdlePulseScale = 0.035f;
         [SerializeField] private float cameraShakeFrequency = 45f;
         [SerializeField] private float cameraShakeHorizontalAmplitude = 0.05f;
         [SerializeField] private float cameraShakeVerticalAmplitude = 0.04f;
         [SerializeField] private float cameraShakeVerticalFrequencyMultiplier = 1.21f;
         [SerializeField] private float cameraShakeRotationFrequencyMultiplier = 0.5f;
         [SerializeField] private float projectileLiquidFrequency = 12f;
-        [SerializeField] private float projectileLiquidForwardStretch = 0.1f;
-        [SerializeField] private float projectileLiquidSideSquash = 0.06f;
+        [SerializeField] private float projectileLiquidForwardStretch = 0.06f;
+        [SerializeField] private float projectileLiquidSideSquash = 0.035f;
         [SerializeField] private float projectileTrailTime = 0.34f;
         [SerializeField] private float projectileTrailWidthMultiplier = 0.45f;
         [SerializeField] private float projectileTrailMinVertexDistance = 0.02f;
@@ -104,6 +104,10 @@ namespace SpherePath.Configuration
         [SerializeField] private float impactBurstObjectLifetime = 0.75f;
         [SerializeField] private float obstacleClearFlashDuration = 0.5f;
         [SerializeField] private float obstacleClearShrinkDuration = 0.12f;
+        [SerializeField] private Color obstacleVisualBaseColor = new Color(0.24f, 0.62f, 0.3f, 1f);
+        [SerializeField] private Color obstacleVisualAccentColor = new Color(0.42f, 0.86f, 0.48f, 1f);
+        [SerializeField] private float obstacleVisualColorVariation = 0.35f;
+        [SerializeField] private float obstacleVisualHeightVariation = 0.12f;
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private GameObject infectionPreviewPrefab;
         [SerializeField] private GameObject projectileBurstPrefab;
@@ -307,6 +311,14 @@ namespace SpherePath.Configuration
         public float ObstacleClearFlashDuration => Mathf.Max(0f, obstacleClearFlashDuration);
 
         public float ObstacleClearShrinkDuration => Mathf.Max(0.01f, obstacleClearShrinkDuration);
+
+        public Color ObstacleVisualBaseColor => obstacleVisualBaseColor;
+
+        public Color ObstacleVisualAccentColor => obstacleVisualAccentColor;
+
+        public float ObstacleVisualColorVariation => Mathf.Clamp01(obstacleVisualColorVariation);
+
+        public float ObstacleVisualHeightVariation => Mathf.Max(0f, obstacleVisualHeightVariation);
 
         public GameObject ProjectilePrefab => projectilePrefab;
 

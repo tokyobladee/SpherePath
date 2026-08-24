@@ -36,6 +36,7 @@ crashlytics-build.properties
 
 Assets/AssetStoreTools*
 
+Assets/SpherePath/Documentation
 AGENTS.md
 .agent-workspace
 audit/

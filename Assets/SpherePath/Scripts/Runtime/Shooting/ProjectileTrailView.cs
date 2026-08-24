@@ -133,7 +133,7 @@ namespace SpherePath.Shooting
             for (var i = 0; i < _positions.Count - 1; i++)
             {
                 var vertexIndex = i * 2;
-                var triangleIndex = i * 6;
+                var triangleIndex = i * 12;
                 triangles[triangleIndex] = vertexIndex;
                 triangles[triangleIndex + 1] = vertexIndex + 2;
                 triangles[triangleIndex + 2] = vertexIndex + 1;

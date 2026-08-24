@@ -15,8 +15,12 @@ namespace SpherePath.UI
         [SerializeField] private Image levelProgressFill;
         [SerializeField] private Text currentLevelText;
         [SerializeField] private Text nextLevelText;
+        [SerializeField] private Color emptyEnergyColor = Color.red;
+        [SerializeField] private Color halfEnergyColor = Color.yellow;
+        [SerializeField] private Color fullEnergyColor = Color.green;
 
         private Rect _currentSafeArea;
+        private Image _energyFillImage;
 
         public event Action RestartClicked;
 
@@ -67,10 +71,12 @@ namespace SpherePath.UI
         public void SetEnergy(float normalizedEnergy)
         {
             RefreshSafeArea();
+            var value = Mathf.Clamp01(normalizedEnergy);
 
             if (energySlider != null)
             {
-                energySlider.value = normalizedEnergy;
+                energySlider.value = value;
+                UpdateEnergyFill(value);
             }
         }
 
@@ -130,6 +136,23 @@ namespace SpherePath.UI
             safeArea.anchorMax = anchorMax;
             safeArea.offsetMin = Vector2.zero;
             safeArea.offsetMax = Vector2.zero;
+        }
+
+        private void UpdateEnergyFill(float normalizedEnergy)
+        {
+            if (_energyFillImage == null && energySlider.fillRect != null)
+            {
+                _energyFillImage = energySlider.fillRect.GetComponent<Image>();
+            }
+
+            if (_energyFillImage == null)
+            {
+                return;
+            }
+
+            _energyFillImage.color = normalizedEnergy < 0.5f
+                ? Color.Lerp(emptyEnergyColor, halfEnergyColor, normalizedEnergy * 2f)
+                : Color.Lerp(halfEnergyColor, fullEnergyColor, (normalizedEnergy - 0.5f) * 2f);
         }
     }
 }

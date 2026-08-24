@@ -91,7 +91,13 @@ namespace SpherePath.GameState
                     continue;
                 }
 
-                obstacle.Configure(_configuration.ObstacleClearFlashDuration, _configuration.ObstacleClearShrinkDuration);
+                obstacle.Configure(
+                    _configuration.ObstacleClearFlashDuration,
+                    _configuration.ObstacleClearShrinkDuration,
+                    _configuration.ObstacleVisualBaseColor,
+                    _configuration.ObstacleVisualAccentColor,
+                    _configuration.ObstacleVisualColorVariation,
+                    _configuration.ObstacleVisualHeightVariation);
                 obstacle.Destroyed += ShowObstacleDestroyed;
             }
 

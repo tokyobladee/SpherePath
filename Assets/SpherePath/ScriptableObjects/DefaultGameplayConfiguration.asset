@@ -48,18 +48,18 @@ MonoBehaviour:
   doorOpenRightPanelX: 0.9
   doorOpenSpeed: 4
   minimumRenderedRadius: 0.05
-  playerChargeVerticalScale: 0.82
-  playerChargeHorizontalScale: 1.12
-  playerIdlePulseFrequency: 3
-  playerIdlePulseScale: 0.025
+  playerChargeVerticalScale: 0.92
+  playerChargeHorizontalScale: 1.05
+  playerIdlePulseFrequency: 2.6
+  playerIdlePulseScale: 0.035
   cameraShakeFrequency: 45
   cameraShakeHorizontalAmplitude: 0.05
   cameraShakeVerticalAmplitude: 0.04
   cameraShakeVerticalFrequencyMultiplier: 1.21
   cameraShakeRotationFrequencyMultiplier: 0.5
   projectileLiquidFrequency: 12
-  projectileLiquidForwardStretch: 0.1
-  projectileLiquidSideSquash: 0.06
+  projectileLiquidForwardStretch: 0.06
+  projectileLiquidSideSquash: 0.035
   projectileTrailTime: 0.34
   projectileTrailWidthMultiplier: 0.45
   projectileTrailMinVertexDistance: 0.02
@@ -111,6 +111,10 @@ MonoBehaviour:
   impactBurstObjectLifetime: 0.75
   obstacleClearFlashDuration: 0.5
   obstacleClearShrinkDuration: 0.12
+  obstacleVisualBaseColor: {r: 0.24, g: 0.62, b: 0.3, a: 1}
+  obstacleVisualAccentColor: {r: 0.42, g: 0.86, b: 0.48, a: 1}
+  obstacleVisualColorVariation: 0.35
+  obstacleVisualHeightVariation: 0.12
   projectilePrefab: {fileID: 100100000000000000, guid: b01e0a4dfc764930928335276e46c2fb, type: 3}
   infectionPreviewPrefab: {fileID: 100200000000000000, guid: b02e0a4dfc764930928335276e46c2fb, type: 3}
   projectileBurstPrefab: {fileID: 100300000000000000, guid: b03e0a4dfc764930928335276e46c2fb, type: 3}
