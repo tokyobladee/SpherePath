@@ -30,6 +30,7 @@ namespace SpherePath.Configuration
         [SerializeField] private float chargePreviewGap = 0.25f;
         [SerializeField] private float projectileHitShakeDuration = 0.25f;
         [SerializeField] private float movementStartDistance = 0.05f;
+        [SerializeField] private float minimumPathMoveDistance = 0.8f;
         [SerializeField] private float movementArrivalDistance = 0.02f;
         [SerializeField] private float corridorVisualPadding = 0.45f;
         [SerializeField] private float corridorGroundOffset = 0.02f;
@@ -152,6 +153,8 @@ namespace SpherePath.Configuration
         public float ProjectileHitShakeDuration => Mathf.Max(0.01f, projectileHitShakeDuration);
 
         public float MovementStartDistance => Mathf.Max(0f, movementStartDistance);
+
+        public float MinimumPathMoveDistance => Mathf.Max(MovementStartDistance, minimumPathMoveDistance);
 
         public float MovementArrivalDistance => Mathf.Max(0f, movementArrivalDistance);
 

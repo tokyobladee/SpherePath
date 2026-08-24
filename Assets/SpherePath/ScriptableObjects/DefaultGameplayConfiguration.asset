@@ -37,6 +37,7 @@ MonoBehaviour:
   chargePreviewGap: 0.25
   projectileHitShakeDuration: 0.25
   movementStartDistance: 0.05
+  minimumPathMoveDistance: 0.8
   movementArrivalDistance: 0.02
   corridorVisualPadding: 0.45
   corridorGroundOffset: 0.02

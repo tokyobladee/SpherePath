@@ -273,14 +273,21 @@ namespace SpherePath.GameState
         private void ResolvePathAfterShot()
         {
             _moveTarget = _pathClearance.GetReachablePosition(_scene.Player.Position, _scene.DoorPosition, _scene.Player.Radius);
-            var movedDistance = Vector3.Distance(_scene.Player.Position, _moveTarget);
+            var movedDistance = GetFlatDistance(_scene.Player.Position, _moveTarget);
+            var canReachDoor = GetFlatDistance(_moveTarget, _scene.DoorPosition) <= _configuration.LevelCompleteDistance;
             var shouldLoseAfterProjectileResolution = _shouldLoseAfterProjectileResolution;
             _shouldLoseAfterProjectileResolution = false;
 
-            if (movedDistance > _configuration.MovementStartDistance)
+            if (movedDistance > _configuration.MovementStartDistance && (canReachDoor || movedDistance >= _configuration.MinimumPathMoveDistance))
             {
                 StartNextPlayerJump();
                 _phase = GamePhase.Moving;
+                return;
+            }
+
+            if (canReachDoor)
+            {
+                Win();
                 return;
             }
 
@@ -300,8 +307,9 @@ namespace SpherePath.GameState
                 ? 1f
                 : Mathf.Min(1f, _jumpProgress + _configuration.PlayerMoveSpeed * deltaTime / jumpDistance);
 
-            var easedProgress = Mathf.SmoothStep(0f, 1f, _jumpProgress);
-            var position = Vector3.Lerp(_jumpStartPosition, _jumpTargetPosition, easedProgress);
+            var isFinalJump = GetFlatDistance(_jumpTargetPosition, _moveTarget) <= _configuration.MovementArrivalDistance;
+            var horizontalProgress = isFinalJump ? Mathf.SmoothStep(0f, 1f, _jumpProgress) : _jumpProgress;
+            var position = Vector3.Lerp(_jumpStartPosition, _jumpTargetPosition, horizontalProgress);
             position.y += Mathf.Sin(_jumpProgress * Mathf.PI) * _configuration.PlayerJumpHeight;
             _scene.Player.SetPosition(position);
 
