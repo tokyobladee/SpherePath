@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SpherePath.Cameras
 {
-    public sealed class PrototypeCameraView : MonoBehaviour
+    public sealed class FollowCameraView : MonoBehaviour
     {
         private Transform _cachedTransform;
         private Vector3 _basePosition;

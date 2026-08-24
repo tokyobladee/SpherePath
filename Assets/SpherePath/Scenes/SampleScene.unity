@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 710000002}
   - component: {fileID: 710000003}
   m_Layer: 0
-  m_Name: SpherePath Prototype Controller
+  m_Name: SpherePath Game Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

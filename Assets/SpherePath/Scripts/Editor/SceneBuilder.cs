@@ -6,17 +6,17 @@ using UnityEngine.SceneManagement;
 
 namespace SpherePath.Editor
 {
-    public static class PrototypeSceneBuilder
+    public static class SceneBuilder
     {
-        [MenuItem("SpherePath/Setup Prototype Scene")]
-        public static void SetupPrototypeScene()
+        [MenuItem("SpherePath/Setup Game Scene")]
+        public static void SetupGameScene()
         {
             var scene = EditorSceneManager.OpenScene("Assets/SpherePath/Scenes/SampleScene.unity", OpenSceneMode.Single);
-            var controller = Object.FindFirstObjectByType<PrototypeGameController>();
+            var controller = Object.FindAnyObjectByType<GameEntryPoint>();
             if (controller == null)
             {
-                var controllerObject = new GameObject("SpherePath Prototype Controller");
-                controllerObject.AddComponent<PrototypeGameController>();
+                var controllerObject = new GameObject("SpherePath Game Controller");
+                controllerObject.AddComponent<GameEntryPoint>();
             }
 
             var mainCamera = Camera.main;
@@ -28,10 +28,12 @@ namespace SpherePath.Editor
                 cameraObject.tag = "MainCamera";
             }
 
-            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 17f, -20f), Quaternion.Euler(56f, 0f, 0f));
-            mainCamera.fieldOfView = 42f;
+            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 18.5f, -18f), Quaternion.Euler(58f, 0f, 0f));
+            mainCamera.fieldOfView = 39f;
+            mainCamera.clearFlags = CameraClearFlags.SolidColor;
+            mainCamera.backgroundColor = new Color(0.18f, 0.2f, 0.22f, 1f);
 
-            var light = Object.FindFirstObjectByType<Light>();
+            var light = Object.FindAnyObjectByType<Light>();
             if (light == null)
             {
                 var lightObject = new GameObject("Directional Light");

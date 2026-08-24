@@ -6,10 +6,10 @@ namespace SpherePath.Pathing
 {
     public sealed class PathClearanceService
     {
-        private readonly IReadOnlyList<PrototypeObstacle> _obstacles;
+        private readonly IReadOnlyList<Obstacle> _obstacles;
         private readonly float _safePadding;
 
-        public PathClearanceService(IReadOnlyList<PrototypeObstacle> obstacles, float safePadding)
+        public PathClearanceService(IReadOnlyList<Obstacle> obstacles, float safePadding)
         {
             _obstacles = obstacles;
             _safePadding = Mathf.Max(0f, safePadding);
@@ -37,7 +37,7 @@ namespace SpherePath.Pathing
 
                 var closestPoint = start + direction * forwardDistance;
                 var lateralDistance = Vector3.Distance(closestPoint, obstacle.Position);
-                if (lateralDistance <= corridorRadius + obstacle.Radius)
+                if (lateralDistance <= corridorRadius + obstacle.Radius + _safePadding)
                 {
                     bestDistance = Mathf.Max(0f, forwardDistance - corridorRadius - obstacle.Radius - _safePadding);
                 }

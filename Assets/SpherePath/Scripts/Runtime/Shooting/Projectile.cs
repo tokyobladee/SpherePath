@@ -5,35 +5,51 @@ using UnityEngine;
 
 namespace SpherePath.Shooting
 {
-    public sealed class PrototypeProjectile : MonoBehaviour
+    public sealed class Projectile : MonoBehaviour
     {
-        private IReadOnlyList<PrototypeObstacle> _obstacles;
+        private IReadOnlyList<Obstacle> _obstacles;
         private Vector3 _direction;
         private float _radius;
         private float _speed;
         private float _lifeTime;
+        private bool _isActive;
 
-        public event Action<PrototypeObstacle, float> HitObstacle;
+        public event Action<Obstacle, float> HitObstacle;
         public event Action Expired;
 
-        public void Launch(IReadOnlyList<PrototypeObstacle> obstacles, Vector3 direction, float radius, float speed, float lifeTime)
+        public void Launch(IReadOnlyList<Obstacle> obstacles, Vector3 direction, float radius, float speed, float lifeTime)
         {
             _obstacles = obstacles;
             _direction = direction.normalized;
             _radius = radius;
             _speed = speed;
             _lifeTime = lifeTime;
+            _isActive = true;
             transform.localScale = Vector3.one * (_radius * 2f);
+        }
+
+        public void Cancel()
+        {
+            _isActive = false;
+            HitObstacle = null;
+            Expired = null;
+            Destroy(gameObject);
         }
 
         private void Update()
         {
+            if (!_isActive)
+            {
+                return;
+            }
+
             transform.position += _direction * (_speed * Time.deltaTime);
             _lifeTime -= Time.deltaTime;
 
             var hitObstacle = FindHitObstacle();
             if (hitObstacle != null)
             {
+                _isActive = false;
                 HitObstacle?.Invoke(hitObstacle, _radius);
                 Destroy(gameObject);
                 return;
@@ -41,12 +57,13 @@ namespace SpherePath.Shooting
 
             if (_lifeTime <= 0f)
             {
+                _isActive = false;
                 Expired?.Invoke();
                 Destroy(gameObject);
             }
         }
 
-        private PrototypeObstacle FindHitObstacle()
+        private Obstacle FindHitObstacle()
         {
             if (_obstacles == null)
             {

@@ -12,7 +12,7 @@ namespace SpherePath.Obstacles
             _infectionRadiusMultiplier = Mathf.Max(0.01f, infectionRadiusMultiplier);
         }
 
-        public ObstacleClearingResult ClearFromImpact(IReadOnlyList<PrototypeObstacle> obstacles, PrototypeObstacle impactObstacle, float projectileRadius)
+        public ObstacleClearingResult ClearFromImpact(IReadOnlyList<Obstacle> obstacles, Obstacle impactObstacle, float projectileRadius)
         {
             if (obstacles == null || impactObstacle == null)
             {

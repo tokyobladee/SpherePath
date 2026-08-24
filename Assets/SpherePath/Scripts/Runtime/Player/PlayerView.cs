@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SpherePath.Player
 {
-    public sealed class PrototypePlayerView : MonoBehaviour
+    public sealed class PlayerView : MonoBehaviour
     {
         private Transform _cachedTransform;
 
@@ -33,6 +33,13 @@ namespace SpherePath.Player
             var width = Mathf.Lerp(1f, 1.12f, charge);
             var diameter = Radius * 2f;
             _cachedTransform.localScale = new Vector3(diameter * width, diameter * stretch, diameter * width);
+        }
+
+        public void SetIdleFeedback()
+        {
+            var pulse = 1f + Mathf.Sin(Time.time * 3f) * 0.025f;
+            var diameter = Radius * 2f;
+            _cachedTransform.localScale = Vector3.one * (diameter * pulse);
         }
     }
 }
