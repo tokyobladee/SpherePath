@@ -17,8 +17,6 @@ namespace SpherePath.Shooting
 
         public float ProjectileRadius => _chargeMeter.ProjectileRadius;
 
-        public bool CanAffordMinimumShot => _energy.CanSpend(_chargeMeter.MinimumEnergyCost);
-
         public void Begin()
         {
             _chargeMeter.Reset();

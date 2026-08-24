@@ -6,7 +6,6 @@ namespace SpherePath.Configuration
     {
         public GameplayConfiguration(
             float maximumEnergy,
-            float minimumEnergy,
             float minimumPlayerRadius,
             float maximumPlayerRadius,
             float maxChargeTime,
@@ -20,12 +19,12 @@ namespace SpherePath.Configuration
             float playerMoveSpeed,
             float cameraFollowSpeed,
             float doorOpenDistance,
-            float pathSafePadding,
+            float pathLateralClearance,
+            float pathStopDistance,
             Vector3 playerStartPosition,
             Vector3 doorPosition)
         {
             MaximumEnergy = maximumEnergy;
-            MinimumEnergy = minimumEnergy;
             MinimumPlayerRadius = minimumPlayerRadius;
             MaximumPlayerRadius = maximumPlayerRadius;
             MaxChargeTime = maxChargeTime;
@@ -39,14 +38,13 @@ namespace SpherePath.Configuration
             PlayerMoveSpeed = playerMoveSpeed;
             CameraFollowSpeed = cameraFollowSpeed;
             DoorOpenDistance = doorOpenDistance;
-            PathSafePadding = pathSafePadding;
+            PathLateralClearance = pathLateralClearance;
+            PathStopDistance = pathStopDistance;
             PlayerStartPosition = playerStartPosition;
             DoorPosition = doorPosition;
         }
 
         public float MaximumEnergy { get; }
-
-        public float MinimumEnergy { get; }
 
         public float MinimumPlayerRadius { get; }
 
@@ -74,7 +72,9 @@ namespace SpherePath.Configuration
 
         public float DoorOpenDistance { get; }
 
-        public float PathSafePadding { get; }
+        public float PathLateralClearance { get; }
+
+        public float PathStopDistance { get; }
 
         public Vector3 PlayerStartPosition { get; }
 

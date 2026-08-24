@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
-namespace SpherePath.Scene
+namespace SpherePath.Level
 {
     public sealed class LevelViewFactory
     {
@@ -146,8 +146,8 @@ namespace SpherePath.Scene
                 cameraObject.tag = "MainCamera";
             }
 
-            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 18.5f, -18f), Quaternion.Euler(58f, 0f, 0f));
-            mainCamera.fieldOfView = 39f;
+            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 18.5f, -17f), Quaternion.Euler(58f, 0f, 0f));
+            mainCamera.fieldOfView = 37f;
             mainCamera.clearFlags = CameraClearFlags.SolidColor;
             mainCamera.backgroundColor = new Color(0.18f, 0.2f, 0.22f, 1f);
             var cameraView = mainCamera.GetComponent<FollowCameraView>();
@@ -157,7 +157,7 @@ namespace SpherePath.Scene
             }
 
             cameraView.CaptureBasePose();
-            cameraView.SetFollowSettings(new Vector3(0f, 18.5f, -9.5f), _configuration.CameraFollowSpeed);
+            cameraView.SetFollowSettings(new Vector3(0f, 18.5f, -8.5f), _configuration.CameraFollowSpeed);
             return cameraView;
         }
 
@@ -179,8 +179,8 @@ namespace SpherePath.Scene
         {
             var ground = GameObject.CreatePrimitive(PrimitiveType.Cube);
             ground.name = "Ground";
-            ground.transform.position = new Vector3(0f, -0.05f, 2f);
-            ground.transform.localScale = new Vector3(11f, 0.1f, 34f);
+            ground.transform.position = new Vector3(0f, -0.05f, 0f);
+            ground.transform.localScale = new Vector3(14f, 0.1f, 46f);
             ground.GetComponent<Renderer>().sharedMaterial = _groundMaterial;
         }
 

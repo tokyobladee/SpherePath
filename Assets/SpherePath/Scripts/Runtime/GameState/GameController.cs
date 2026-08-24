@@ -4,7 +4,7 @@ using SpherePath.Input;
 using SpherePath.Obstacles;
 using SpherePath.Pathing;
 using SpherePath.Player;
-using SpherePath.Scene;
+using SpherePath.Level;
 using SpherePath.Shooting;
 using UnityEngine;
 
@@ -152,6 +152,8 @@ namespace SpherePath.GameState
 
             if (!_shotCharge.TrySpend(shot))
             {
+                _energy.Deplete();
+                UpdatePlayerRadius();
                 Lose();
                 return;
             }
@@ -246,7 +248,7 @@ namespace SpherePath.GameState
 
         private bool ShouldLoseWhenBlocked()
         {
-            return _playerViability.HasCriticalEnergy || !_shotCharge.CanAffordMinimumShot;
+            return _playerViability.IsDepleted;
         }
 
         private void ResetCameraShake()

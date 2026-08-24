@@ -1,14 +1,14 @@
 using SpherePath.Configuration;
-using SpherePath.Scene;
+using SpherePath.GameState;
+using SpherePath.Level;
 using UnityEngine;
 using Zenject;
 
-namespace SpherePath.GameState
+namespace SpherePath.Bootstrap
 {
-    public sealed class GameEntryPoint : MonoBehaviour
+    public sealed class EntryPoint : MonoBehaviour
     {
         [SerializeField] private float maximumEnergy = 10f;
-        [SerializeField] private float minimumEnergy = 1.2f;
         [SerializeField] private float minimumPlayerRadius = 0.35f;
         [SerializeField] private float maximumPlayerRadius = 1.1f;
         [SerializeField] private float maxChargeTime = 1.6f;
@@ -54,7 +54,6 @@ namespace SpherePath.GameState
         {
             return new GameplayConfiguration(
                 maximumEnergy,
-                minimumEnergy,
                 minimumPlayerRadius,
                 maximumPlayerRadius,
                 maxChargeTime,
@@ -68,7 +67,8 @@ namespace SpherePath.GameState
                 playerMoveSpeed,
                 cameraFollowSpeed,
                 doorOpenDistance,
-                0.75f,
+                0.2f,
+                4f,
                 new Vector3(0f, maximumPlayerRadius, -12f),
                 new Vector3(0f, 1.5f, 16f));
         }

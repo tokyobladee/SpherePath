@@ -27,8 +27,6 @@ namespace SpherePath.Shooting
 
         public float EnergyCost => Mathf.Lerp(_minEnergyCost, _maxEnergyCost, Normalized);
 
-        public float MinimumEnergyCost => _minEnergyCost;
-
         public void Reset()
         {
             _chargeTime = 0f;

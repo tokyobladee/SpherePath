@@ -9,7 +9,7 @@ namespace SpherePath.Player
             _energy = energy;
         }
 
-        public bool HasCriticalEnergy => _energy.IsBelowMinimum;
+        public bool IsDepleted => _energy.IsDepleted;
 
         public bool CanSpend(float energyCost)
         {

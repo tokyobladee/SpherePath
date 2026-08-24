@@ -1,4 +1,4 @@
-using SpherePath.GameState;
+using SpherePath.Bootstrap;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -12,11 +12,11 @@ namespace SpherePath.Editor
         public static void SetupGameScene()
         {
             var scene = EditorSceneManager.OpenScene("Assets/SpherePath/Scenes/SampleScene.unity", OpenSceneMode.Single);
-            var controller = Object.FindAnyObjectByType<GameEntryPoint>();
+            var controller = Object.FindAnyObjectByType<EntryPoint>();
             if (controller == null)
             {
                 var controllerObject = new GameObject("SpherePath Game Controller");
-                controllerObject.AddComponent<GameEntryPoint>();
+                controllerObject.AddComponent<EntryPoint>();
             }
 
             var mainCamera = Camera.main;
@@ -28,8 +28,8 @@ namespace SpherePath.Editor
                 cameraObject.tag = "MainCamera";
             }
 
-            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 18.5f, -18f), Quaternion.Euler(58f, 0f, 0f));
-            mainCamera.fieldOfView = 39f;
+            mainCamera.transform.SetPositionAndRotation(new Vector3(0f, 18.5f, -17f), Quaternion.Euler(58f, 0f, 0f));
+            mainCamera.fieldOfView = 37f;
             mainCamera.clearFlags = CameraClearFlags.SolidColor;
             mainCamera.backgroundColor = new Color(0.18f, 0.2f, 0.22f, 1f);
 

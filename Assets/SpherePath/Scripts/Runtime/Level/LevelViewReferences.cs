@@ -5,7 +5,7 @@ using SpherePath.Player;
 using SpherePath.UI;
 using UnityEngine;
 
-namespace SpherePath.Scene
+namespace SpherePath.Level
 {
     public sealed class LevelViewReferences
     {
