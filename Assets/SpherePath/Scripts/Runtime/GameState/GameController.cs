@@ -13,14 +13,12 @@ namespace SpherePath.GameState
     public sealed class GameController : IDisposable
     {
         private const float CompletionDelay = 0.75f;
-        private const float CorridorVisualPadding = 0.45f;
-
-        private static readonly int PathMinXProperty = Shader.PropertyToID("_PathMinX");
-        private static readonly int PathMaxXProperty = Shader.PropertyToID("_PathMaxX");
 
         private readonly GameplayConfiguration _configuration;
         private readonly LevelViewReferences _scene;
         private readonly TransientViewFactory _transientViewFactory;
+        private readonly DoorController _doorController;
+        private readonly CorridorIndicator _corridorIndicator;
         private readonly PlayerEnergy _energy;
         private readonly PlayerSizeService _playerSize;
         private readonly PlayerViabilityService _playerViability;
@@ -34,11 +32,8 @@ namespace SpherePath.GameState
         private bool _shouldLoseAfterProjectileResolution;
         private float _impactShakeTime;
         private int _pendingObstacleDestructionCount;
-        private bool _isDoorOpen;
-        private float _doorOpenProgress;
         private float _completionTimer;
-        private Renderer _corridorRenderer;
-        private MaterialPropertyBlock _corridorPropertyBlock;
+        private bool _isCompletionPublished;
         private Vector3 _jumpStartPosition;
         private Vector3 _jumpTargetPosition;
         private float _jumpProgress;
@@ -49,6 +44,8 @@ namespace SpherePath.GameState
             GameplayConfiguration configuration,
             LevelViewReferences scene,
             TransientViewFactory transientViewFactory,
+            DoorController doorController,
+            CorridorIndicator corridorIndicator,
             PlayerEnergy energy,
             PlayerSizeService playerSize,
             PlayerViabilityService playerViability,
@@ -60,6 +57,8 @@ namespace SpherePath.GameState
             _configuration = configuration;
             _scene = scene;
             _transientViewFactory = transientViewFactory;
+            _doorController = doorController;
+            _corridorIndicator = corridorIndicator;
             _energy = energy;
             _playerSize = playerSize;
             _playerViability = playerViability;
@@ -73,8 +72,6 @@ namespace SpherePath.GameState
         {
             _energy.Changed += UpdateEnergyView;
             _scene.Ui.RestartClicked += ResetGame;
-            _corridorRenderer = _scene.Corridor.GetComponent<Renderer>();
-            _corridorPropertyBlock = new MaterialPropertyBlock();
 
             foreach (var obstacle in _scene.Obstacles)
             {
@@ -141,7 +138,7 @@ namespace SpherePath.GameState
                 UpdateCompletion(deltaTime);
             }
 
-            UpdateDoor(deltaTime);
+            _doorController.Tick(deltaTime);
             UpdateImpactShake(deltaTime);
         }
 
@@ -160,15 +157,14 @@ namespace SpherePath.GameState
             _shouldLoseAfterProjectileResolution = false;
             _impactShakeTime = 0f;
             _pendingObstacleDestructionCount = 0;
-            _isDoorOpen = false;
-            _doorOpenProgress = 0f;
             _completionTimer = 0f;
+            _isCompletionPublished = false;
             _jumpProgress = 1f;
             _scene.Player.SetPosition(_scene.PlayerSpawnPosition);
             UpdatePlayerRadius();
             UpdateLevelProgress();
             SnapCameraToPlayer();
-            ApplyDoorPose();
+            _doorController.Reset();
             _scene.Ui.ShowPlaying();
             _scene.ChargePreview.gameObject.SetActive(false);
             ResetCameraShake();
@@ -315,7 +311,7 @@ namespace SpherePath.GameState
 
             if (distanceToDoor <= _configuration.DoorOpenDistance)
             {
-                SetDoorOpen(true);
+                _doorController.SetOpen(true);
             }
 
             if (distanceToDoor <= _configuration.LevelCompleteDistance)
@@ -361,8 +357,9 @@ namespace SpherePath.GameState
         {
             _phase = GamePhase.Won;
             _scene.Ui.SetLevelProgressValue(1f);
-            SetDoorOpen(true);
+            _doorController.SetOpen(true);
             _completionTimer = CompletionDelay;
+            _isCompletionPublished = false;
         }
 
         private void Lose()
@@ -402,6 +399,12 @@ namespace SpherePath.GameState
                 return;
             }
 
+            if (_isCompletionPublished)
+            {
+                return;
+            }
+
+            _isCompletionPublished = true;
             Completed?.Invoke();
         }
 
@@ -413,25 +416,6 @@ namespace SpherePath.GameState
         private void SnapCameraToPlayer()
         {
             _scene.CameraView.SnapToFollowTarget(_scene.Player.Position);
-        }
-
-        private void SetDoorOpen(bool isOpen)
-        {
-            _isDoorOpen = isOpen;
-        }
-
-        private void UpdateDoor(float deltaTime)
-        {
-            var targetProgress = _isDoorOpen ? 1f : 0f;
-            _doorOpenProgress = Mathf.MoveTowards(_doorOpenProgress, targetProgress, deltaTime * 4f);
-            ApplyDoorPose();
-        }
-
-        private void ApplyDoorPose()
-        {
-            var easedProgress = Mathf.SmoothStep(0f, 1f, _doorOpenProgress);
-            _scene.DoorLeftPanel.localPosition = new Vector3(Mathf.Lerp(-0.45f, -0.9f, easedProgress), 0f, 0f);
-            _scene.DoorRightPanel.localPosition = new Vector3(Mathf.Lerp(0.45f, 0.9f, easedProgress), 0f, 0f);
         }
 
         private void UpdateEnergyView(float normalizedEnergy)
@@ -516,27 +500,7 @@ namespace SpherePath.GameState
 
         private void UpdateCorridor(float playerRadius)
         {
-            var start = _scene.Player.Position;
-            var target = _scene.DoorPosition;
-            var startFlat = new Vector3(start.x, 0f, start.z);
-            var targetFlat = new Vector3(target.x, 0f, target.z);
-            var midpoint = (startFlat + targetFlat) * 0.5f;
-            var length = Vector3.Distance(startFlat, targetFlat);
-            var pathWidth = playerRadius * 2f;
-            var visualWidth = pathWidth + CorridorVisualPadding * 2f;
-            var pathMinX = CorridorVisualPadding / visualWidth;
-            _scene.Corridor.position = new Vector3(midpoint.x, 0.02f, midpoint.z);
-            _scene.Corridor.localScale = new Vector3(visualWidth, 0.04f, length);
-
-            if (_corridorRenderer == null)
-            {
-                return;
-            }
-
-            _corridorRenderer.GetPropertyBlock(_corridorPropertyBlock);
-            _corridorPropertyBlock.SetFloat(PathMinXProperty, pathMinX);
-            _corridorPropertyBlock.SetFloat(PathMaxXProperty, 1f - pathMinX);
-            _corridorRenderer.SetPropertyBlock(_corridorPropertyBlock);
+            _corridorIndicator.Update(_scene.Player.Position, _scene.DoorPosition, playerRadius);
         }
     }
 }

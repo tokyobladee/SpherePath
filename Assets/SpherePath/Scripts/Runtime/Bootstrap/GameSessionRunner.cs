@@ -17,6 +17,7 @@ namespace SpherePath.Bootstrap
         private GameController _controller;
         private LevelViewReferences _level;
         private int _levelIndex;
+        private bool _isLevelTransitionPending;
 
         public GameSessionRunner(GameplayConfiguration configuration, LevelCatalog levelCatalog, Transform levelParent, int initialLevelIndex)
         {
@@ -33,7 +34,20 @@ namespace SpherePath.Bootstrap
 
         public void Tick(float deltaTime)
         {
-            _controller?.Tick(deltaTime);
+            if (_controller == null)
+            {
+                return;
+            }
+
+            _controller.Tick(deltaTime);
+
+            if (!_isLevelTransitionPending)
+            {
+                return;
+            }
+
+            _isLevelTransitionPending = false;
+            LoadNextLevel();
         }
 
         public void Dispose()
@@ -44,15 +58,21 @@ namespace SpherePath.Bootstrap
         private void LoadLevel(int levelIndex)
         {
             DisposeLevel();
+            _isLevelTransitionPending = false;
             _container = new DiContainer();
             _installer.Install(_container, _configuration, _levelCatalog);
             var levelLoader = _container.Resolve<LevelLoader>();
             _level = levelLoader.Load(levelIndex, _levelParent);
             _installer.InstallScene(_container, _level, _configuration);
             _controller = _container.Resolve<GameController>();
-            _controller.Completed += LoadNextLevel;
+            _controller.Completed += QueueLevelTransition;
             _controller.Initialize();
             _level.Ui.SetLevelProgress(levelIndex + 1, GetNextLevelLabel(levelIndex), 0f);
+        }
+
+        private void QueueLevelTransition()
+        {
+            _isLevelTransitionPending = true;
         }
 
         private void LoadNextLevel()
@@ -71,7 +91,7 @@ namespace SpherePath.Bootstrap
         {
             if (_controller != null)
             {
-                _controller.Completed -= LoadNextLevel;
+                _controller.Completed -= QueueLevelTransition;
                 _controller.Dispose();
                 _controller = null;
             }

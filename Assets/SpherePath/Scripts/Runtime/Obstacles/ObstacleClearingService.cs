@@ -31,7 +31,7 @@ namespace SpherePath.Obstacles
                     continue;
                 }
 
-                if (Vector3.Distance(impactPosition, obstacle.Position) <= infectionRadius + obstacle.Radius)
+                if (GetFlatDistance(impactPosition, obstacle.Position) <= infectionRadius + obstacle.Radius)
                 {
                     obstacle.Clear();
                     clearedCount++;
@@ -39,6 +39,11 @@ namespace SpherePath.Obstacles
             }
 
             return new ObstacleClearingResult(clearedCount, infectionRadius, impactPosition);
+        }
+
+        private static float GetFlatDistance(Vector3 first, Vector3 second)
+        {
+            return Vector3.Distance(new Vector3(first.x, 0f, first.z), new Vector3(second.x, 0f, second.z));
         }
     }
 }

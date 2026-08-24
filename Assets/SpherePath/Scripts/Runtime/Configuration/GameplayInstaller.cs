@@ -30,6 +30,8 @@ namespace SpherePath.Configuration
             container.BindInstance(sceneReferences).AsSingle();
             container.Bind<PathClearanceService>().AsSingle().WithArguments(sceneReferences.Obstacles, configuration.PathLateralClearance, configuration.PathStopDistance);
             container.Bind<TransientViewFactory>().AsSingle();
+            container.Bind<DoorController>().AsSingle();
+            container.Bind<CorridorIndicator>().AsSingle();
             container.Bind<GameController>().AsSingle();
         }
     }
