@@ -12,6 +12,7 @@ namespace SpherePath.Configuration
         [SerializeField] private float minimumShotCost = 0.65f;
         [SerializeField] private float projectileSpeed = 18f;
         [SerializeField] private float projectileLifeTime = 4f;
+        [SerializeField] private float projectileExitDistance = 1.5f;
         [SerializeField] private float infectionRadiusMultiplier = 2.25f;
         [SerializeField] private float playerMoveSpeed = 7f;
         [SerializeField] private float cameraFollowSpeed = 6f;
@@ -32,6 +33,8 @@ namespace SpherePath.Configuration
         public float ProjectileSpeed => Mathf.Max(0.01f, projectileSpeed);
 
         public float ProjectileLifeTime => Mathf.Max(0.01f, projectileLifeTime);
+
+        public float ProjectileExitDistance => Mathf.Max(0f, projectileExitDistance);
 
         public float InfectionRadiusMultiplier => Mathf.Max(0.01f, infectionRadiusMultiplier);
 
@@ -60,6 +63,11 @@ namespace SpherePath.Configuration
             if (maxChargeTime <= 0f || projectileSpeed <= 0f || projectileLifeTime <= 0f || infectionRadiusMultiplier <= 0f || playerMoveSpeed <= 0f || cameraFollowSpeed <= 0f)
             {
                 throw new System.InvalidOperationException($"{nameof(GameplayConfiguration)} contains non-positive timing, speed, or multiplier values.");
+            }
+
+            if (projectileExitDistance < 0f)
+            {
+                throw new System.InvalidOperationException($"{nameof(GameplayConfiguration)} requires non-negative {nameof(projectileExitDistance)}.");
             }
         }
     }

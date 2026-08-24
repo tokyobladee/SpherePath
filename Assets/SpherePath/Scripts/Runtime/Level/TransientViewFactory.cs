@@ -27,7 +27,13 @@ namespace SpherePath.Level
             Object.Destroy(projectileObject.GetComponent<Collider>());
             CreateProjectileTrail(projectileObject, radius);
             var projectile = projectileObject.AddComponent<Projectile>();
-            projectile.Launch(_level.Obstacles, Vector3.forward, radius, _configuration.ProjectileSpeed, _configuration.ProjectileLifeTime);
+            projectile.Launch(
+                _level.Obstacles,
+                Vector3.forward,
+                radius,
+                _configuration.ProjectileSpeed,
+                _configuration.ProjectileLifeTime,
+                GetProjectileTravelDistance(position, radius));
             _transientObjects.Add(projectileObject);
             return projectile;
         }
@@ -82,6 +88,12 @@ namespace SpherePath.Level
             trail.endWidth = 0f;
             trail.minVertexDistance = 0.02f;
             trail.numCornerVertices = 4;
+        }
+
+        private float GetProjectileTravelDistance(Vector3 startPosition, float radius)
+        {
+            var distanceToDoor = Vector3.Dot(_level.DoorPosition - startPosition, Vector3.forward);
+            return Mathf.Max(radius, distanceToDoor + radius + _configuration.ProjectileExitDistance);
         }
 
         private void CreateImpactBurst(Vector3 center, float radius)

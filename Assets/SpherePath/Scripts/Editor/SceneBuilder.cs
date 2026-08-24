@@ -20,34 +20,96 @@ namespace SpherePath.Editor
     {
         private const string ScenePath = "Assets/SpherePath/Scenes/Main.unity";
         private const string ConfigurationPath = "Assets/SpherePath/ScriptableObjects/DefaultGameplayConfiguration.asset";
-        private const string LevelPrefabPath = "Assets/SpherePath/Prefabs/DefaultLevel.prefab";
+        private const string LevelCatalogPath = "Assets/SpherePath/ScriptableObjects/DefaultLevelCatalog.asset";
+        private const string LevelPrefabFolder = "Assets/SpherePath/Prefabs/Levels";
         private const string MaterialFolder = "Assets/SpherePath/Materials";
 
-        private static readonly Vector3[] ObstaclePositions =
+        private static readonly LevelDefinition[] LevelDefinitions =
         {
-            new Vector3(-2.2f, 0.6f, -4.8f),
-            new Vector3(-0.8f, 0.6f, -4.4f),
-            new Vector3(0.8f, 0.6f, -4.4f),
-            new Vector3(2.2f, 0.6f, -4.8f),
-            new Vector3(-1.7f, 0.6f, -2.4f),
-            new Vector3(0f, 0.6f, -2.1f),
-            new Vector3(1.7f, 0.6f, -2.4f),
-            new Vector3(-2.4f, 0.6f, 0.1f),
-            new Vector3(-0.7f, 0.6f, 0.4f),
-            new Vector3(1f, 0.6f, 0.2f),
-            new Vector3(2.5f, 0.6f, 0.9f),
-            new Vector3(-1.9f, 0.6f, 2.9f),
-            new Vector3(-0.2f, 0.6f, 3.2f),
-            new Vector3(1.6f, 0.6f, 3f),
-            new Vector3(-2.5f, 0.6f, 5.7f),
-            new Vector3(-0.8f, 0.6f, 5.5f),
-            new Vector3(0.9f, 0.6f, 5.8f),
-            new Vector3(2.3f, 0.6f, 6.3f),
-            new Vector3(-1.6f, 0.6f, 8.4f),
-            new Vector3(0.1f, 0.6f, 8.8f),
-            new Vector3(1.8f, 0.6f, 8.5f),
-            new Vector3(-0.8f, 0.6f, 11.1f),
-            new Vector3(0.9f, 0.6f, 11.3f)
+            new LevelDefinition(
+                "Level01",
+                new[]
+                {
+                    new Vector3(-2.2f, 0.6f, -4.8f),
+                    new Vector3(-0.8f, 0.6f, -4.4f),
+                    new Vector3(0.8f, 0.6f, -4.4f),
+                    new Vector3(2.2f, 0.6f, -4.8f),
+                    new Vector3(-1.7f, 0.6f, -2.4f),
+                    new Vector3(0f, 0.6f, -2.1f),
+                    new Vector3(1.7f, 0.6f, -2.4f),
+                    new Vector3(-2.4f, 0.6f, 0.1f),
+                    new Vector3(-0.7f, 0.6f, 0.4f),
+                    new Vector3(1f, 0.6f, 0.2f),
+                    new Vector3(2.5f, 0.6f, 0.9f),
+                    new Vector3(-1.9f, 0.6f, 2.9f),
+                    new Vector3(-0.2f, 0.6f, 3.2f),
+                    new Vector3(1.6f, 0.6f, 3f),
+                    new Vector3(-2.5f, 0.6f, 5.7f),
+                    new Vector3(-0.8f, 0.6f, 5.5f),
+                    new Vector3(0.9f, 0.6f, 5.8f),
+                    new Vector3(2.3f, 0.6f, 6.3f),
+                    new Vector3(-1.6f, 0.6f, 8.4f),
+                    new Vector3(0.1f, 0.6f, 8.8f),
+                    new Vector3(1.8f, 0.6f, 8.5f),
+                    new Vector3(-0.8f, 0.6f, 11.1f),
+                    new Vector3(0.9f, 0.6f, 11.3f)
+                }),
+            new LevelDefinition(
+                "Level02",
+                new[]
+                {
+                    new Vector3(-2.4f, 0.6f, -5.2f),
+                    new Vector3(-0.4f, 0.6f, -4.9f),
+                    new Vector3(1.5f, 0.6f, -4.5f),
+                    new Vector3(2.6f, 0.6f, -3.1f),
+                    new Vector3(-1.4f, 0.6f, -2.6f),
+                    new Vector3(0.7f, 0.6f, -2.2f),
+                    new Vector3(-2.6f, 0.6f, -0.3f),
+                    new Vector3(-0.9f, 0.6f, 0.2f),
+                    new Vector3(1.2f, 0.6f, 0f),
+                    new Vector3(2.4f, 0.6f, 1.4f),
+                    new Vector3(-1.9f, 0.6f, 2.2f),
+                    new Vector3(0f, 0.6f, 2.8f),
+                    new Vector3(1.7f, 0.6f, 3.5f),
+                    new Vector3(-2.5f, 0.6f, 5.1f),
+                    new Vector3(-0.6f, 0.6f, 5.7f),
+                    new Vector3(1.4f, 0.6f, 5.3f),
+                    new Vector3(2.5f, 0.6f, 7f),
+                    new Vector3(-1.2f, 0.6f, 8.2f),
+                    new Vector3(0.8f, 0.6f, 8.8f),
+                    new Vector3(-2.2f, 0.6f, 10.2f),
+                    new Vector3(-0.1f, 0.6f, 10.9f),
+                    new Vector3(1.9f, 0.6f, 11.4f)
+                }),
+            new LevelDefinition(
+                "Level03",
+                new[]
+                {
+                    new Vector3(-2.5f, 0.6f, -5.4f),
+                    new Vector3(-1.1f, 0.6f, -4.7f),
+                    new Vector3(0.5f, 0.6f, -5.1f),
+                    new Vector3(2.2f, 0.6f, -4.3f),
+                    new Vector3(-2.1f, 0.6f, -2.8f),
+                    new Vector3(-0.2f, 0.6f, -2.4f),
+                    new Vector3(1.8f, 0.6f, -2.7f),
+                    new Vector3(-2.8f, 0.6f, -0.8f),
+                    new Vector3(-1.2f, 0.6f, 0.4f),
+                    new Vector3(0.7f, 0.6f, 0.1f),
+                    new Vector3(2.3f, 0.6f, 0.7f),
+                    new Vector3(-2.2f, 0.6f, 2.4f),
+                    new Vector3(-0.4f, 0.6f, 3.1f),
+                    new Vector3(1.3f, 0.6f, 2.7f),
+                    new Vector3(2.7f, 0.6f, 3.9f),
+                    new Vector3(-2.6f, 0.6f, 5.4f),
+                    new Vector3(-0.8f, 0.6f, 5.9f),
+                    new Vector3(0.9f, 0.6f, 6.4f),
+                    new Vector3(2.4f, 0.6f, 6.8f),
+                    new Vector3(-1.7f, 0.6f, 8.6f),
+                    new Vector3(0.2f, 0.6f, 9.1f),
+                    new Vector3(1.8f, 0.6f, 9.7f),
+                    new Vector3(-0.9f, 0.6f, 11.2f),
+                    new Vector3(1f, 0.6f, 11.5f)
+                })
         };
 
         [MenuItem("SpherePath/Setup Game Scene")]
@@ -55,9 +117,10 @@ namespace SpherePath.Editor
         {
             EnsureFolders();
             var configuration = LoadOrCreateConfiguration();
-            var levelPrefab = CreateLevelPrefab();
+            var levelReferences = CreateLevelPrefabs();
+            var levelCatalog = CreateLevelCatalog(levelReferences);
             var scene = CreateScene();
-            var entryPoint = CreateEntryPoint(configuration, levelPrefab);
+            var entryPoint = CreateEntryPoint(configuration, levelCatalog);
             CreateEventSystem();
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -69,6 +132,7 @@ namespace SpherePath.Editor
         {
             EnsureFolder("Assets/SpherePath/Scenes");
             EnsureFolder("Assets/SpherePath/Prefabs");
+            EnsureFolder("Assets/SpherePath/Prefabs/Levels");
             EnsureFolder("Assets/SpherePath/Materials");
             EnsureFolder("Assets/SpherePath/ScriptableObjects");
         }
@@ -99,7 +163,7 @@ namespace SpherePath.Editor
             return configuration;
         }
 
-        private static LevelViewReferences CreateLevelPrefab()
+        private static List<LevelViewReferences> CreateLevelPrefabs()
         {
             var playerMaterial = LoadOrCreateMaterial("Player", new Color(1f, 0.58f, 0.12f, 1f));
             var projectileMaterial = LoadOrCreateMaterial("Projectile", new Color(1f, 0.78f, 0.25f, 1f));
@@ -109,8 +173,37 @@ namespace SpherePath.Editor
             var corridorMaterial = LoadOrCreateMaterial("Corridor", new Color(1f, 0.18f, 0.4f, 0.35f));
             var infectionPreviewMaterial = LoadOrCreateMaterial("InfectionPreview", new Color(1f, 0.35f, 0.12f, 0.28f));
             var trailMaterial = LoadOrCreateMaterial("Trail", new Color(1f, 0.7f, 0.18f, 0.65f));
+            var levelReferences = new List<LevelViewReferences>();
 
-            var levelObject = new GameObject("Default Level");
+            foreach (var definition in LevelDefinitions)
+            {
+                levelReferences.Add(CreateLevelPrefab(
+                    definition,
+                    playerMaterial,
+                    projectileMaterial,
+                    groundMaterial,
+                    obstacleMaterial,
+                    doorMaterial,
+                    corridorMaterial,
+                    infectionPreviewMaterial,
+                    trailMaterial));
+            }
+
+            return levelReferences;
+        }
+
+        private static LevelViewReferences CreateLevelPrefab(
+            LevelDefinition definition,
+            Material playerMaterial,
+            Material projectileMaterial,
+            Material groundMaterial,
+            Material obstacleMaterial,
+            Material doorMaterial,
+            Material corridorMaterial,
+            Material infectionPreviewMaterial,
+            Material trailMaterial)
+        {
+            var levelObject = new GameObject(definition.Name);
             var references = levelObject.AddComponent<LevelViewReferences>();
             var cameraView = CreateCamera(levelObject.transform);
             CreateLight(levelObject.transform);
@@ -120,7 +213,7 @@ namespace SpherePath.Editor
             var player = CreatePlayer(levelObject.transform, playerMaterial);
             var corridor = CreateCorridor(levelObject.transform, corridorMaterial);
             var chargePreview = CreateChargePreview(levelObject.transform, projectileMaterial);
-            var obstacles = CreateObstacles(levelObject.transform, obstacleMaterial);
+            var obstacles = CreateObstacles(levelObject.transform, obstacleMaterial, definition.ObstaclePositions);
             var ui = CreateUi(levelObject.transform);
 
             AssignLevelReferences(
@@ -139,10 +232,33 @@ namespace SpherePath.Editor
                 infectionPreviewMaterial,
                 trailMaterial);
 
-            var prefab = PrefabUtility.SaveAsPrefabAsset(levelObject, LevelPrefabPath);
+            var prefab = PrefabUtility.SaveAsPrefabAsset(levelObject, $"{LevelPrefabFolder}/{definition.Name}.prefab");
             Object.DestroyImmediate(levelObject);
             AssetDatabase.SaveAssets();
             return prefab.GetComponent<LevelViewReferences>();
+        }
+
+        private static LevelCatalog CreateLevelCatalog(List<LevelViewReferences> levelReferences)
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<LevelCatalog>(LevelCatalogPath);
+            if (catalog == null)
+            {
+                catalog = ScriptableObject.CreateInstance<LevelCatalog>();
+                AssetDatabase.CreateAsset(catalog, LevelCatalogPath);
+            }
+
+            var serializedCatalog = new SerializedObject(catalog);
+            var levelsProperty = serializedCatalog.FindProperty("levels");
+            levelsProperty.arraySize = levelReferences.Count;
+            for (var i = 0; i < levelReferences.Count; i++)
+            {
+                levelsProperty.GetArrayElementAtIndex(i).objectReferenceValue = levelReferences[i];
+            }
+
+            serializedCatalog.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(catalog);
+            AssetDatabase.SaveAssets();
+            return catalog;
         }
 
         private static Material LoadOrCreateMaterial(string materialName, Color color)
@@ -168,13 +284,14 @@ namespace SpherePath.Editor
             return scene;
         }
 
-        private static EntryPoint CreateEntryPoint(GameplayConfiguration configuration, LevelViewReferences levelPrefab)
+        private static EntryPoint CreateEntryPoint(GameplayConfiguration configuration, LevelCatalog levelCatalog)
         {
             var entryPointObject = new GameObject("EntryPoint");
             var entryPoint = entryPointObject.AddComponent<EntryPoint>();
             var serializedEntryPoint = new SerializedObject(entryPoint);
             serializedEntryPoint.FindProperty("configuration").objectReferenceValue = configuration;
-            serializedEntryPoint.FindProperty("levelPrefab").objectReferenceValue = levelPrefab;
+            serializedEntryPoint.FindProperty("levelCatalog").objectReferenceValue = levelCatalog;
+            serializedEntryPoint.FindProperty("initialLevelIndex").intValue = 0;
             serializedEntryPoint.ApplyModifiedPropertiesWithoutUndo();
             return entryPoint;
         }
@@ -274,10 +391,10 @@ namespace SpherePath.Editor
             return previewObject.transform;
         }
 
-        private static List<Obstacle> CreateObstacles(Transform parent, Material material)
+        private static List<Obstacle> CreateObstacles(Transform parent, Material material, IReadOnlyList<Vector3> positions)
         {
             var obstacles = new List<Obstacle>();
-            foreach (var position in ObstaclePositions)
+            foreach (var position in positions)
             {
                 var obstacleObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                 obstacleObject.name = "Obstacle";
@@ -487,6 +604,19 @@ namespace SpherePath.Editor
             serializedUi.FindProperty("restartButton").objectReferenceValue = restartButton;
             serializedUi.FindProperty("safeArea").objectReferenceValue = safeArea;
             serializedUi.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private readonly struct LevelDefinition
+        {
+            public LevelDefinition(string name, IReadOnlyList<Vector3> obstaclePositions)
+            {
+                Name = name;
+                ObstaclePositions = obstaclePositions;
+            }
+
+            public string Name { get; }
+
+            public IReadOnlyList<Vector3> ObstaclePositions { get; }
         }
     }
 }

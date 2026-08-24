@@ -19,6 +19,7 @@ MonoBehaviour:
   minimumShotCost: 0.65
   projectileSpeed: 18
   projectileLifeTime: 4
+  projectileExitDistance: 1.5
   infectionRadiusMultiplier: 2.25
   playerMoveSpeed: 7
   cameraFollowSpeed: 6

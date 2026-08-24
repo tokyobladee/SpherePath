@@ -11,9 +11,11 @@ namespace SpherePath.Configuration
 {
     public sealed class GameplayInstaller
     {
-        public void Install(DiContainer container, GameplayConfiguration configuration)
+        public void Install(DiContainer container, GameplayConfiguration configuration, LevelCatalog levelCatalog)
         {
             container.BindInstance(configuration).AsSingle();
+            container.BindInstance(levelCatalog).AsSingle();
+            container.Bind<LevelLoader>().AsSingle();
             container.Bind<PlayerEnergy>().AsSingle().WithArguments(configuration.MaximumEnergy);
             container.Bind<PlayerSizeService>().AsSingle().WithArguments(configuration.MinimumPlayerRadius, configuration.MaximumPlayerRadius);
             container.Bind<PlayerViabilityService>().AsSingle();

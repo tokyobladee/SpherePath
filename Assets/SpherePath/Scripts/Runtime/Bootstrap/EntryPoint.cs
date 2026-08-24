@@ -9,22 +9,23 @@ namespace SpherePath.Bootstrap
     public sealed class EntryPoint : MonoBehaviour
     {
         [SerializeField] private GameplayConfiguration configuration;
-        [SerializeField] private LevelViewReferences levelPrefab;
+        [SerializeField] private LevelCatalog levelCatalog;
+        [SerializeField] private int initialLevelIndex;
         [SerializeField] private Transform levelParent;
 
         private DiContainer _container;
         private GameController _controller;
-        private LevelViewReferences _level;
 
         private void Awake()
         {
             LockPortraitOrientation();
             ValidateReferences();
-            _level = CreateLevel();
             _container = new DiContainer();
             var installer = new GameplayInstaller();
-            installer.Install(_container, configuration);
-            installer.InstallScene(_container, _level, configuration);
+            installer.Install(_container, configuration, levelCatalog);
+            var levelLoader = _container.Resolve<LevelLoader>();
+            var level = levelLoader.Load(initialLevelIndex, levelParent);
+            installer.InstallScene(_container, level, configuration);
             _controller = _container.Resolve<GameController>();
             _controller.Initialize();
         }
@@ -46,21 +47,13 @@ namespace SpherePath.Bootstrap
                 throw new System.InvalidOperationException($"{nameof(EntryPoint)} requires {nameof(configuration)}.");
             }
 
-            if (levelPrefab == null)
+            if (levelCatalog == null)
             {
-                throw new System.InvalidOperationException($"{nameof(EntryPoint)} requires {nameof(levelPrefab)}.");
+                throw new System.InvalidOperationException($"{nameof(EntryPoint)} requires {nameof(levelCatalog)}.");
             }
 
             configuration.Validate();
-        }
-
-        private LevelViewReferences CreateLevel()
-        {
-            var level = levelPrefab.gameObject.scene.IsValid()
-                ? levelPrefab
-                : Instantiate(levelPrefab, levelParent);
-            level.Validate();
-            return level;
+            levelCatalog.Validate();
         }
 
         private void LockPortraitOrientation()
