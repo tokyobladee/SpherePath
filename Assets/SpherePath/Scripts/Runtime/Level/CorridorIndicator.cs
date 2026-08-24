@@ -1,20 +1,21 @@
 using UnityEngine;
+using SpherePath.Configuration;
 
 namespace SpherePath.Level
 {
     public sealed class CorridorIndicator
     {
-        private const float VisualPadding = 0.45f;
-
         private static readonly int PathMinXProperty = Shader.PropertyToID("_PathMinX");
         private static readonly int PathMaxXProperty = Shader.PropertyToID("_PathMaxX");
 
+        private readonly GameplayConfiguration _configuration;
         private readonly Transform _corridor;
         private readonly Renderer _renderer;
         private readonly MaterialPropertyBlock _propertyBlock = new MaterialPropertyBlock();
 
-        public CorridorIndicator(LevelViewReferences scene)
+        public CorridorIndicator(GameplayConfiguration configuration, LevelViewReferences scene)
         {
+            _configuration = configuration;
             _corridor = scene.Corridor;
             _renderer = _corridor.GetComponent<Renderer>();
         }
@@ -26,10 +27,10 @@ namespace SpherePath.Level
             var midpoint = (startFlat + targetFlat) * 0.5f;
             var length = Vector3.Distance(startFlat, targetFlat);
             var pathWidth = playerRadius * 2f;
-            var visualWidth = pathWidth + VisualPadding * 2f;
-            var pathMinX = VisualPadding / visualWidth;
-            _corridor.position = new Vector3(midpoint.x, 0.02f, midpoint.z);
-            _corridor.localScale = new Vector3(visualWidth, 0.04f, length);
+            var visualWidth = pathWidth + _configuration.CorridorVisualPadding * 2f;
+            var pathMinX = _configuration.CorridorVisualPadding / visualWidth;
+            _corridor.position = new Vector3(midpoint.x, _configuration.CorridorGroundOffset, midpoint.z);
+            _corridor.localScale = new Vector3(visualWidth, _configuration.CorridorHeight, length);
 
             if (_renderer == null)
             {

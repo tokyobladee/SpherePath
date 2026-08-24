@@ -7,8 +7,9 @@ namespace SpherePath.Obstacles
     public sealed class Obstacle : MonoBehaviour
     {
         [SerializeField] private float radius = 0.5f;
-        [SerializeField] private float clearFlashDuration = 0.5f;
 
+        private float _clearFlashDuration;
+        private float _clearShrinkDuration;
         private Vector3 _initialScale;
         private Renderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
@@ -21,6 +22,12 @@ namespace SpherePath.Obstacles
         public float Radius => radius;
 
         public bool IsCleared { get; private set; }
+
+        public void Configure(float clearFlashDuration, float clearShrinkDuration)
+        {
+            _clearFlashDuration = clearFlashDuration;
+            _clearShrinkDuration = clearShrinkDuration;
+        }
 
         private void Awake()
         {
@@ -63,15 +70,14 @@ namespace SpherePath.Obstacles
         private IEnumerator PlayClear()
         {
             ApplyFlash();
-            yield return new WaitForSeconds(Mathf.Max(0f, clearFlashDuration));
+            yield return new WaitForSeconds(Mathf.Max(0f, _clearFlashDuration));
 
-            var duration = 0.12f;
             var elapsed = 0f;
 
-            while (elapsed < duration)
+            while (elapsed < _clearShrinkDuration)
             {
                 elapsed += Time.deltaTime;
-                var normalized = Mathf.Clamp01(elapsed / duration);
+                var normalized = Mathf.Clamp01(elapsed / _clearShrinkDuration);
                 transform.localScale = Vector3.Lerp(_initialScale, Vector3.zero, normalized);
                 yield return null;
             }

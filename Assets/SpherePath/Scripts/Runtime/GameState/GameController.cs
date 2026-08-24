@@ -12,8 +12,6 @@ namespace SpherePath.GameState
 {
     public sealed class GameController : IDisposable
     {
-        private const float CompletionDelay = 0.75f;
-
         private readonly GameplayConfiguration _configuration;
         private readonly LevelViewReferences _scene;
         private readonly TransientViewFactory _transientViewFactory;
@@ -72,6 +70,19 @@ namespace SpherePath.GameState
         {
             _energy.Changed += UpdateEnergyView;
             _scene.Ui.RestartClicked += ResetGame;
+            _scene.Player.ApplyVisualTuning(
+                _configuration.MinimumRenderedRadius,
+                _configuration.PlayerChargeVerticalScale,
+                _configuration.PlayerChargeHorizontalScale,
+                _configuration.PlayerIdlePulseFrequency,
+                _configuration.PlayerIdlePulseScale);
+            _scene.CameraView.SetFollowSettings(_configuration.CameraFollowOffset, _configuration.CameraFollowSpeed);
+            _scene.CameraView.SetShakeSettings(
+                _configuration.CameraShakeFrequency,
+                _configuration.CameraShakeHorizontalAmplitude,
+                _configuration.CameraShakeVerticalAmplitude,
+                _configuration.CameraShakeVerticalFrequencyMultiplier,
+                _configuration.CameraShakeRotationFrequencyMultiplier);
 
             foreach (var obstacle in _scene.Obstacles)
             {
@@ -80,6 +91,7 @@ namespace SpherePath.GameState
                     continue;
                 }
 
+                obstacle.Configure(_configuration.ObstacleClearFlashDuration, _configuration.ObstacleClearShrinkDuration);
                 obstacle.Destroyed += ShowObstacleDestroyed;
             }
 
@@ -204,7 +216,7 @@ namespace SpherePath.GameState
         private void UpdateChargePreview()
         {
             var radius = _shotCharge.ProjectileRadius;
-            _scene.ChargePreview.position = _scene.Player.Position + Vector3.forward * (GetProjectedPlayerRadius() + radius + 0.25f);
+            _scene.ChargePreview.position = _scene.Player.Position + Vector3.forward * (GetProjectedPlayerRadius() + radius + _configuration.ChargePreviewGap);
             _scene.ChargePreview.localScale = Vector3.one * (radius * 2f);
         }
 
@@ -230,7 +242,7 @@ namespace SpherePath.GameState
 
         private void SpawnProjectile(float radius)
         {
-            var position = _scene.Player.Position + Vector3.forward * (_scene.Player.Radius + radius + 0.25f);
+            var position = _scene.Player.Position + Vector3.forward * (_scene.Player.Radius + radius + _configuration.ChargePreviewGap);
             var projectile = _transientViewFactory.CreateProjectile(position, radius);
             projectile.HitObstacle += ResolveProjectileHit;
             projectile.Expired += ResolveProjectileMiss;
@@ -238,7 +250,7 @@ namespace SpherePath.GameState
 
         private void ResolveProjectileHit(Obstacle obstacle, float projectileRadius, Vector3 projectilePosition)
         {
-            _impactShakeTime = 0.25f;
+            _impactShakeTime = _configuration.ProjectileHitShakeDuration;
             _transientViewFactory.ShowProjectileBurst(projectilePosition, projectileRadius);
             var result = _obstacleClearing.ClearFromImpact(_scene.Obstacles, obstacle, projectilePosition, projectileRadius);
             _transientViewFactory.ShowInfectionRadius(result.ImpactPosition, result.InfectionRadius);
@@ -265,7 +277,7 @@ namespace SpherePath.GameState
             var shouldLoseAfterProjectileResolution = _shouldLoseAfterProjectileResolution;
             _shouldLoseAfterProjectileResolution = false;
 
-            if (movedDistance > 0.05f)
+            if (movedDistance > _configuration.MovementStartDistance)
             {
                 StartNextPlayerJump();
                 _phase = GamePhase.Moving;
@@ -297,7 +309,7 @@ namespace SpherePath.GameState
             {
                 _scene.Player.SetPosition(_jumpTargetPosition);
 
-                if (GetFlatDistance(_jumpTargetPosition, _moveTarget) > 0.02f)
+                if (GetFlatDistance(_jumpTargetPosition, _moveTarget) > _configuration.MovementArrivalDistance)
                 {
                     StartNextPlayerJump();
                 }
@@ -320,7 +332,7 @@ namespace SpherePath.GameState
                 return;
             }
 
-            if (GetFlatDistance(_scene.Player.Position, _moveTarget) <= 0.02f)
+            if (GetFlatDistance(_scene.Player.Position, _moveTarget) <= _configuration.MovementArrivalDistance)
             {
                 if (ShouldLoseWhenBlocked())
                 {
@@ -338,7 +350,7 @@ namespace SpherePath.GameState
             var target = new Vector3(_moveTarget.x, current.y, _moveTarget.z);
             var remaining = GetFlatDistance(current, target);
 
-            if (remaining <= 0.02f)
+            if (remaining <= _configuration.MovementArrivalDistance)
             {
                 _jumpStartPosition = current;
                 _jumpTargetPosition = target;
@@ -358,7 +370,7 @@ namespace SpherePath.GameState
             _phase = GamePhase.Won;
             _scene.Ui.SetLevelProgressValue(1f);
             _doorController.SetOpen(true);
-            _completionTimer = CompletionDelay;
+            _completionTimer = _configuration.CompletionDelay;
             _isCompletionPublished = false;
         }
 
@@ -387,7 +399,7 @@ namespace SpherePath.GameState
             }
 
             _impactShakeTime = Mathf.Max(0f, _impactShakeTime - deltaTime);
-            _scene.CameraView.SetShake(_impactShakeTime / 0.25f);
+            _scene.CameraView.SetShake(_impactShakeTime / _configuration.ProjectileHitShakeDuration);
         }
 
         private void UpdateCompletion(float deltaTime)

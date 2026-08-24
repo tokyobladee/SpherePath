@@ -15,12 +15,24 @@ namespace SpherePath.Shooting
         private float _travelDistance;
         private float _maxTravelDistance;
         private float _launchTime;
+        private float _liquidFrequency;
+        private float _liquidForwardStretch;
+        private float _liquidSideSquash;
         private bool _isActive;
 
         public event Action<Obstacle, float, Vector3> HitObstacle;
         public event Action<Vector3, float> Expired;
 
-        public void Launch(IReadOnlyList<Obstacle> obstacles, Vector3 direction, float radius, float speed, float lifeTime, float maxTravelDistance)
+        public void Launch(
+            IReadOnlyList<Obstacle> obstacles,
+            Vector3 direction,
+            float radius,
+            float speed,
+            float lifeTime,
+            float maxTravelDistance,
+            float liquidFrequency,
+            float liquidForwardStretch,
+            float liquidSideSquash)
         {
             _obstacles = obstacles;
             _direction = direction.normalized;
@@ -30,6 +42,9 @@ namespace SpherePath.Shooting
             _travelDistance = 0f;
             _maxTravelDistance = Mathf.Max(0f, maxTravelDistance);
             _launchTime = Time.time;
+            _liquidFrequency = liquidFrequency;
+            _liquidForwardStretch = liquidForwardStretch;
+            _liquidSideSquash = liquidSideSquash;
             _isActive = true;
             UpdateLiquidScale();
         }
@@ -123,9 +138,9 @@ namespace SpherePath.Shooting
         private void UpdateLiquidScale()
         {
             var diameter = _radius * 2f;
-            var time = (Time.time - _launchTime) * 12f;
-            var forwardStretch = 1f + Mathf.Sin(time) * 0.1f;
-            var sideSquash = 1f - Mathf.Sin(time) * 0.06f;
+            var time = (Time.time - _launchTime) * _liquidFrequency;
+            var forwardStretch = 1f + Mathf.Sin(time) * _liquidForwardStretch;
+            var sideSquash = 1f - Mathf.Sin(time) * _liquidSideSquash;
             transform.localScale = new Vector3(diameter * sideSquash, diameter * sideSquash, diameter * forwardStretch);
         }
     }

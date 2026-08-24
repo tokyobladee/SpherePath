@@ -1,23 +1,20 @@
 using UnityEngine;
+using SpherePath.Configuration;
 
 namespace SpherePath.Level
 {
     public sealed class DoorController
     {
-        private const float ClosedLeftPanelX = -0.45f;
-        private const float OpenLeftPanelX = -0.9f;
-        private const float ClosedRightPanelX = 0.45f;
-        private const float OpenRightPanelX = 0.9f;
-        private const float OpenSpeed = 4f;
-
+        private readonly GameplayConfiguration _configuration;
         private readonly Transform _leftPanel;
         private readonly Transform _rightPanel;
 
         private bool _isOpen;
         private float _openProgress;
 
-        public DoorController(LevelViewReferences scene)
+        public DoorController(GameplayConfiguration configuration, LevelViewReferences scene)
         {
+            _configuration = configuration;
             _leftPanel = scene.DoorLeftPanel;
             _rightPanel = scene.DoorRightPanel;
         }
@@ -37,15 +34,15 @@ namespace SpherePath.Level
         public void Tick(float deltaTime)
         {
             var targetProgress = _isOpen ? 1f : 0f;
-            _openProgress = Mathf.MoveTowards(_openProgress, targetProgress, deltaTime * OpenSpeed);
+            _openProgress = Mathf.MoveTowards(_openProgress, targetProgress, deltaTime * _configuration.DoorOpenSpeed);
             ApplyPose();
         }
 
         private void ApplyPose()
         {
             var easedProgress = Mathf.SmoothStep(0f, 1f, _openProgress);
-            _leftPanel.localPosition = new Vector3(Mathf.Lerp(ClosedLeftPanelX, OpenLeftPanelX, easedProgress), 0f, 0f);
-            _rightPanel.localPosition = new Vector3(Mathf.Lerp(ClosedRightPanelX, OpenRightPanelX, easedProgress), 0f, 0f);
+            _leftPanel.localPosition = new Vector3(Mathf.Lerp(_configuration.DoorClosedLeftPanelX, _configuration.DoorOpenLeftPanelX, easedProgress), 0f, 0f);
+            _rightPanel.localPosition = new Vector3(Mathf.Lerp(_configuration.DoorClosedRightPanelX, _configuration.DoorOpenRightPanelX, easedProgress), 0f, 0f);
         }
     }
 }

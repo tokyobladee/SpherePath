@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using SpherePath.Configuration;
 using SpherePath.Shooting;
 using SpherePath.VFX;
@@ -16,7 +16,7 @@ namespace SpherePath.Level
         public TransientViewFactory(GameplayConfiguration configuration, LevelViewReferences level)
         {
             _projectileFactory = new ProjectileViewFactory(configuration, level, Track);
-            _vfxFactory = new GameplayVfxFactory(level, Track);
+            _vfxFactory = new GameplayVfxFactory(configuration, level, Track);
         }
 
         public Projectile CreateProjectile(Vector3 position, float radius)
@@ -96,7 +96,10 @@ namespace SpherePath.Level
                 radius,
                 _configuration.ProjectileSpeed,
                 _configuration.ProjectileLifeTime,
-                GetTravelDistance(position, radius));
+                GetTravelDistance(position, radius),
+                _configuration.ProjectileLiquidFrequency,
+                _configuration.ProjectileLiquidForwardStretch,
+                _configuration.ProjectileLiquidSideSquash);
             _track(projectileObject);
             return projectile;
         }
@@ -105,11 +108,11 @@ namespace SpherePath.Level
         {
             var trail = projectileObject.AddComponent<TrailRenderer>();
             trail.sharedMaterial = _level.TrailMaterial;
-            trail.time = 0.32f;
-            trail.startWidth = radius * 1.55f;
+            trail.time = _configuration.ProjectileTrailTime;
+            trail.startWidth = radius * _configuration.ProjectileTrailWidthMultiplier;
             trail.endWidth = 0f;
-            trail.minVertexDistance = 0.02f;
-            trail.numCornerVertices = 8;
+            trail.minVertexDistance = _configuration.ProjectileTrailMinVertexDistance;
+            trail.numCornerVertices = _configuration.ProjectileTrailCornerVertices;
         }
 
         private float GetTravelDistance(Vector3 startPosition, float radius)
@@ -121,11 +124,13 @@ namespace SpherePath.Level
 
     public sealed class GameplayVfxFactory
     {
+        private readonly GameplayConfiguration _configuration;
         private readonly LevelViewReferences _level;
         private readonly Action<GameObject> _track;
 
-        public GameplayVfxFactory(LevelViewReferences level, Action<GameObject> track)
+        public GameplayVfxFactory(GameplayConfiguration configuration, LevelViewReferences level, Action<GameObject> track)
         {
+            _configuration = configuration;
             _level = level;
             _track = track;
         }
@@ -139,11 +144,11 @@ namespace SpherePath.Level
 
             var previewObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             previewObject.name = "Infection Radius Preview";
-            previewObject.transform.position = new Vector3(center.x, 0.04f, center.z);
-            previewObject.transform.localScale = new Vector3(radius * 2f, 0.02f, radius * 2f);
+            previewObject.transform.position = new Vector3(center.x, _configuration.InfectionPreviewGroundOffset, center.z);
+            previewObject.transform.localScale = new Vector3(radius * 2f, _configuration.InfectionPreviewHeight, radius * 2f);
             UnityEngine.Object.Destroy(previewObject.GetComponent<Collider>());
             previewObject.GetComponent<Renderer>().sharedMaterial = _level.InfectionPreviewMaterial;
-            previewObject.AddComponent<TimedSelfDestroy>().SetLifeTime(0.35f);
+            previewObject.AddComponent<TimedSelfDestroy>().SetLifeTime(_configuration.InfectionPreviewLifetime);
             _track(previewObject);
             ShowImpactBurst(center, radius);
         }
@@ -152,43 +157,43 @@ namespace SpherePath.Level
         {
             var particles = CreateBurst("Projectile Burst", center);
             var main = particles.main;
-            main.startLifetime = 0.42f;
-            main.startSpeed = Mathf.Max(4.5f, radius * 7f);
-            main.startSize = Mathf.Max(0.16f, radius * 0.24f);
-            main.startColor = new Color(1f, 0.88f, 0.25f, 1f);
-            main.gravityModifier = 0.25f;
-            main.maxParticles = 96;
-            ConfigureShape(particles, Mathf.Max(0.08f, radius * 0.35f));
-            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * 48f), 24, 72));
-            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(0.9f);
+            main.startLifetime = _configuration.ProjectileBurstLifetime;
+            main.startSpeed = Mathf.Max(_configuration.ProjectileBurstMinimumSpeed, radius * _configuration.ProjectileBurstSpeedMultiplier);
+            main.startSize = Mathf.Max(_configuration.ProjectileBurstMinimumSize, radius * _configuration.ProjectileBurstSizeMultiplier);
+            main.startColor = _configuration.ProjectileBurstColor;
+            main.gravityModifier = _configuration.ProjectileBurstGravity;
+            main.maxParticles = _configuration.ProjectileBurstMaxParticles;
+            ConfigureShape(particles, Mathf.Max(_configuration.ProjectileBurstMinimumShapeRadius, radius * _configuration.ProjectileBurstShapeRadiusMultiplier));
+            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * _configuration.ProjectileBurstParticleMultiplier), _configuration.ProjectileBurstMinimumParticleCount, _configuration.ProjectileBurstMaximumParticleCount));
+            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(_configuration.ProjectileBurstObjectLifetime);
         }
 
         public void ShowObstacleBurst(Vector3 center, float radius)
         {
             var particles = CreateBurst("Obstacle Burst", center);
             var main = particles.main;
-            main.startLifetime = 0.55f;
-            main.startSpeed = Mathf.Max(2f, radius * 4.5f);
-            main.startSize = Mathf.Max(0.12f, radius * 0.28f);
-            main.startColor = new Color(0.48f, 0.9f, 0.42f, 1f);
-            main.gravityModifier = 1.1f;
-            main.maxParticles = 64;
-            ConfigureShape(particles, Mathf.Max(0.1f, radius * 0.3f));
-            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * 42f), 18, 56));
-            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(1f);
+            main.startLifetime = _configuration.ObstacleBurstLifetime;
+            main.startSpeed = Mathf.Max(_configuration.ObstacleBurstMinimumSpeed, radius * _configuration.ObstacleBurstSpeedMultiplier);
+            main.startSize = Mathf.Max(_configuration.ObstacleBurstMinimumSize, radius * _configuration.ObstacleBurstSizeMultiplier);
+            main.startColor = _configuration.ObstacleBurstColor;
+            main.gravityModifier = _configuration.ObstacleBurstGravity;
+            main.maxParticles = _configuration.ObstacleBurstMaxParticles;
+            ConfigureShape(particles, Mathf.Max(_configuration.ObstacleBurstMinimumShapeRadius, radius * _configuration.ObstacleBurstShapeRadiusMultiplier));
+            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * _configuration.ObstacleBurstParticleMultiplier), _configuration.ObstacleBurstMinimumParticleCount, _configuration.ObstacleBurstMaximumParticleCount));
+            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(_configuration.ObstacleBurstObjectLifetime);
         }
 
         private void ShowImpactBurst(Vector3 center, float radius)
         {
-            var particles = CreateBurst("Impact Burst", new Vector3(center.x, 0.4f, center.z));
+            var particles = CreateBurst("Impact Burst", new Vector3(center.x, _configuration.ImpactBurstHeight, center.z));
             var main = particles.main;
-            main.startLifetime = 0.35f;
-            main.startSpeed = Mathf.Max(2f, radius * 2f);
-            main.startSize = Mathf.Max(0.12f, radius * 0.18f);
-            main.maxParticles = 64;
-            ConfigureShape(particles, Mathf.Max(0.1f, radius * 0.2f));
-            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * 22f), 12, 48));
-            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(0.8f);
+            main.startLifetime = _configuration.ImpactBurstLifetime;
+            main.startSpeed = Mathf.Max(_configuration.ImpactBurstMinimumSpeed, radius * _configuration.ImpactBurstSpeedMultiplier);
+            main.startSize = Mathf.Max(_configuration.ImpactBurstMinimumSize, radius * _configuration.ImpactBurstSizeMultiplier);
+            main.maxParticles = _configuration.ImpactBurstMaxParticles;
+            ConfigureShape(particles, Mathf.Max(_configuration.ImpactBurstMinimumShapeRadius, radius * _configuration.ImpactBurstShapeRadiusMultiplier));
+            particles.Emit(Mathf.Clamp(Mathf.RoundToInt(radius * _configuration.ImpactBurstParticleMultiplier), _configuration.ImpactBurstMinimumParticleCount, _configuration.ImpactBurstMaximumParticleCount));
+            particles.gameObject.AddComponent<TimedSelfDestroy>().SetLifeTime(_configuration.ImpactBurstObjectLifetime);
         }
 
         private ParticleSystem CreateBurst(string name, Vector3 position)
