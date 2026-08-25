@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &335197084980616532
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &570708626181009498
@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &726887947353294494
@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &823956162188704225
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &1025547549878301009
@@ -877,7 +877,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &1081155167741764586
@@ -908,7 +908,7 @@ Transform:
   m_GameObject: {fileID: 1081155167741764586}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.88, y: -0.05, z: 45.58}
+  m_LocalPosition: {x: 13.95, y: -0.05, z: 45.95}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &1411428538366003191
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9ff848540c3f604bbd91e5388a3fcef, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Player.PlayerView
 --- !u!1 &1454010647973608249
 GameObject:
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9954ee5d14bb4017bcbc754669da9c1f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Level.LevelViewReferences
   obstacles:
   - {fileID: 1741144237215112356}
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -1531,7 +1531,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
@@ -1548,7 +1548,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89aebb35de6340df98e96f1b1ef35263, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.UI.GameUiView
   energySlider: {fileID: 1980940795647984556}
   statusText: {fileID: 1896370110127539707}
@@ -1559,6 +1559,9 @@ MonoBehaviour:
   levelProgressFill: {fileID: 9103000000000000016}
   currentLevelText: {fileID: 9103000000000000002}
   nextLevelText: {fileID: 9103000000000000012}
+  emptyEnergyColor: {r: 1, g: 0, b: 0, a: 1}
+  halfEnergyColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fullEnergyColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1595540400205322597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,7 +1687,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &1869175987794211740
@@ -1715,7 +1718,7 @@ Transform:
   m_GameObject: {fileID: 1869175987794211740}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: -41.5}
+  m_LocalPosition: {x: 0, y: -0.05, z: -45.9}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1831,10 +1834,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7419311878683462688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.08, y: 0.42}
-  m_AnchorMax: {x: 0.92, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -29}
+  m_SizeDelta: {x: 302, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5170975718342706711
 CanvasRenderer:
@@ -1854,7 +1857,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.9}
@@ -1877,7 +1880,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text:
+  m_Text: 
 --- !u!1 &2134779621319944300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,7 +1936,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.65, b: 0.12, a: 1}
@@ -2078,7 +2081,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &2366882650802438751
@@ -2189,7 +2192,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -2236,7 +2239,7 @@ Transform:
   m_GameObject: {fileID: 2373208006902570930}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.9, y: -0.05, z: 45.58}
+  m_LocalPosition: {x: -13.89, y: -0.05, z: 45.95}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2348,7 +2351,7 @@ Transform:
   m_GameObject: {fileID: 2449906736580002752}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.9, y: -0.05, z: 0}
+  m_LocalPosition: {x: -13.89, y: -0.05, z: 0}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2557,7 +2560,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &2574228448351088488
@@ -2664,7 +2667,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3af4c6b0dd481cc4a941a9a423506e30, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Cameras.FollowCameraView
 --- !u!114 &4097389594200212821
 MonoBehaviour:
@@ -2676,7 +2679,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
@@ -2835,7 +2838,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &3510151723408027210
@@ -2983,7 +2986,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3165,7 +3168,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &3725030244676275801
@@ -3293,7 +3296,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &3741902496253725544
@@ -3421,7 +3424,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &4590585447796044855
@@ -3549,7 +3552,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &4592857204115476145
@@ -3708,7 +3711,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &5228309574136101380
@@ -3739,7 +3742,7 @@ Transform:
   m_GameObject: {fileID: 5228309574136101380}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.88, y: -0.05, z: 0}
+  m_LocalPosition: {x: 13.95, y: -0.05, z: 0}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3851,7 +3854,7 @@ Transform:
   m_GameObject: {fileID: 5280039663349508249}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.9, y: -0.05, z: -41.5}
+  m_LocalPosition: {x: -13.89, y: -0.05, z: -45.9}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4053,7 +4056,7 @@ Transform:
   m_GameObject: {fileID: 5509237306973143745}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 45.58}
+  m_LocalPosition: {x: 0, y: -0.05, z: 45.95}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4169,10 +4172,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1290705790759030005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.08, y: 0.82}
-  m_AnchorMax: {x: 0.92, y: 0.94}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 114}
+  m_SizeDelta: {x: 302, y: 77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8636193980555722987
 CanvasRenderer:
@@ -4192,7 +4195,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4215,7 +4218,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text:
+  m_Text: 
 --- !u!1 &6190389664053156369
 GameObject:
   m_ObjectHideFlags: 0
@@ -4341,7 +4344,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &6277407842489499195
@@ -4469,7 +4472,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &6345980700155363751
@@ -4527,7 +4530,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
@@ -4672,7 +4675,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &6661124696094771239
@@ -4800,7 +4803,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &6757379510290846227
@@ -4934,7 +4937,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.45}
@@ -5011,7 +5014,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.42}
@@ -5156,7 +5159,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &7195064502108930554
@@ -5209,7 +5212,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
   m_Navigation:
     m_Mode: 3
@@ -5375,7 +5378,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &8026430042954017047
@@ -5452,10 +5455,10 @@ RectTransform:
   - {fileID: 5223609827417004211}
   m_Father: {fileID: 7419311878683462688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.28, y: 0.28}
-  m_AnchorMax: {x: 0.72, y: 0.36}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -129.5}
+  m_SizeDelta: {x: 158, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6521087240029843411
 CanvasRenderer:
@@ -5475,7 +5478,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.62, b: 0.12, a: 1}
@@ -5505,7 +5508,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
     m_Mode: 3
@@ -5664,7 +5667,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5
 --- !u!1 &8589353887936646951
@@ -5807,7 +5810,7 @@ Transform:
   m_GameObject: {fileID: 8979305064922960302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.88, y: -0.05, z: -41.5}
+  m_LocalPosition: {x: 13.95, y: -0.05, z: -45.9}
   m_LocalScale: {x: 14, y: 0.1, z: 46}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6058,7 +6061,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 0.18, g: 0.08, b: 0.22, a: 1}
@@ -6137,7 +6140,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 0.1, g: 0.1, b: 0.1, a: 1}
@@ -6216,7 +6219,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -6291,7 +6294,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.9, g: 0.12, b: 0.95, a: 1}
@@ -6415,7 +6418,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6490,7 +6493,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.9}
@@ -6639,6 +6642,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ced4ff88346253419144c2c9e483215, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpherePath.Obstacles.Obstacle
   radius: 0.5

@@ -9,13 +9,15 @@ namespace SpherePath.Bootstrap
         [SerializeField] private GameplayConfiguration configuration;
         [SerializeField] private LevelCatalog levelCatalog;
         [SerializeField] private int initialLevelIndex;
+        [SerializeField] private int targetFrameRate = 60;
         [SerializeField] private Transform levelParent;
 
         private GameSessionRunner _sessionRunner;
 
         private void Awake()
         {
-            LockPortraitOrientation();
+            StartupSettings.ApplyPerformance(targetFrameRate);
+            StartupSettings.ApplyPortraitOrientation();
             ValidateReferences();
             _sessionRunner = new GameSessionRunner(configuration, levelCatalog, levelParent, initialLevelIndex);
             _sessionRunner.Start();
@@ -45,15 +47,6 @@ namespace SpherePath.Bootstrap
 
             configuration.Validate();
             levelCatalog.Validate();
-        }
-
-        private void LockPortraitOrientation()
-        {
-            Screen.autorotateToPortrait = true;
-            Screen.autorotateToPortraitUpsideDown = false;
-            Screen.autorotateToLandscapeLeft = false;
-            Screen.autorotateToLandscapeRight = false;
-            Screen.orientation = ScreenOrientation.Portrait;
         }
     }
 }
